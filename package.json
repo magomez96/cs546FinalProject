@@ -1,0 +1,28 @@
+{
+  "name": "spoileralert",
+  "version": "0.0.1",
+  "description": "Tracks expiration dates of stuff in your fridge",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magomez96/cs546FinalProject.git"
+  },
+  "author": "Adamm Gincel, Matthew Gomez, Alex Massenzio, Neel Patel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/magomez96/cs546FinalProject/issues"
+  },
+  "homepage": "https://github.com/magomez96/cs546FinalProject#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "express": "^4.15.2",
+    "express-handlebars": "^3.0.0",
+    "mongodb": "^2.2.25",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  }
+}
