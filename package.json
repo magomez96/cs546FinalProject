@@ -19,6 +19,7 @@
   "homepage": "https://github.com/magomez96/cs546FinalProject#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "express-handlebars": "^3.0.0",
     "mongodb": "^2.2.25",
