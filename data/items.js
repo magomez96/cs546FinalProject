@@ -6,7 +6,9 @@ let exportedMethods = {
     getItemById(id) {
         return new Promise((fulfill, reject) => {
             return items().then((itemCollection) => {
-                return itemCollection.findOne({ _id: id }).then((item) => {
+                return itemCollection.findOne({
+                    _id: id
+                }).then((item) => {
                     if (!item) reject("Item not found");
                     fulfill(item);
                 });
@@ -14,9 +16,17 @@ let exportedMethods = {
         });
     },
 
+    //This should work
     getAllItems(id) {
         return new Promise((fulfill, reject) => {
-            //TODO: Get all products by User id
+            return items().then((itemCollection) => {
+                return itemCollection.find({
+                    userId: id
+                }).toArray().then((itemArray) => {
+                    if (!itemArray) reject(`No items found for user with id of ${id}`);
+                    fulfill(itemArray);
+                });
+            });
         });
     },
 
@@ -44,7 +54,9 @@ let exportedMethods = {
     removeItem(id) {
         return new Promise((fulfill, reject) => {
             return items().then((itemCollection) => {
-                fulfill(itemCollection.removeOne({ _id: id })).then((deletionInfo) => {
+                fulfill(itemCollection.removeOne({
+                    _id: id
+                })).then((deletionInfo) => {
                     if (deletionInfo.deletedCount === 0) {
                         reject(`Could not delete item with id of ${id}`);
                     }
@@ -54,17 +66,19 @@ let exportedMethods = {
     },
     updateItem(id, updatedItem) {
         return new Promise((fulfill, reject) => {
-        return this.getItemById(id).then((currentItem) => {
-            let updatedItemData = {};
-            if (updatedItem.nickname) updatedItemData.nickname = updatedItem.nickname;
+            return this.getItemById(id).then((currentItem) => {
+                let updatedItemData = {};
+                if (updatedItem.nickname) updatedItemData.nickname = updatedItem.nickname;
 
-            let updateCommand = {
-                $set: updatedItem
-            };
-            return itemCollection.updateOne({ _id: id }, updateCommand).then(() => {
-                fulfill(this.getItemById(id));
+                let updateCommand = {
+                    $set: updatedItem
+                };
+                return itemCollection.updateOne({
+                    _id: id
+                }, updateCommand).then(() => {
+                    fulfill(this.getItemById(id));
+                });
             });
-        });
         });
     }
 }
