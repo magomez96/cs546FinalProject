@@ -3,7 +3,7 @@ const usersData = require("./users");
 const productsData = require("./products");
 
 module.exports = {
-    comments: itemsData,
+    items: itemsData,
     users: usersData,
     products: productsData
 };

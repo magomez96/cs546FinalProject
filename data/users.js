@@ -14,6 +14,13 @@ let exportedMethods = {
         });
     },
 
+    getAllUsers() {
+        return new Promise((fulfill, reject) => {
+            return users().then((userCollection) => {
+                fulfill(userCollection.find({}).toArray());
+            });
+         });
+    },
     //Password hashed here or in routes?
     //Should email be in profiles? Are we treating as a username
     //or should it be separate 
@@ -39,6 +46,7 @@ let exportedMethods = {
             });
         });
     },
+    //TODO: Same issue with cannot read property of "then" type error
     removeUser(id) {
         return new Promise((fulfill, reject) => {
             return users().then((userCollection) => {
@@ -53,16 +61,11 @@ let exportedMethods = {
     updateUser(id, updatedUser) {
         return new Promise((fulfill, reject) => {
             return this.getUserById(id).then((currentUser) => {
-                let updatedUserData = { profile: {} };
-                if (updatedUser.sessionId) updatedUserData.sessionId = updatedUser.sessionId;
-                if (updatedUser.name) updatedUserData.profile.name = updatedUser.name;
-                if (updatedUser.diet) updatedUserData.profile.diet = updatedUser.diet;
-                if (updatedUser.email) updatedUserData.profile.email = updatedUser.email;
-
-                let updateCommand = {
-                    $set: updatedUser
-                };
-                return userCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                return users().then((userCollection) => {
+                    if (updatedUser.sessionId) userCollection.updateOne({ _id: id }, { $set: {sessionId: updatedUser.sessionId}});
+                    if (updatedUser.name) userCollection.updateOne({ _id: id }, { $set: {'profile.name': updatedUser.name}});
+                    if (updatedUser.diet) userCollection.updateOne({ _id: id }, { $set: {'profile.diet': updatedUser.diet}});
+                    if (updatedUser.email) userCollection.updateOne({ _id: id }, { $set: {'profile.email': updatedUser.email}});
                     fulfill(this.getUserById(id));
                 });
             });

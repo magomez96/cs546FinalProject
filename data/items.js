@@ -67,16 +67,15 @@ let exportedMethods = {
     updateItem(id, updatedItem) {
         return new Promise((fulfill, reject) => {
             return this.getItemById(id).then((currentItem) => {
-                let updatedItemData = {};
-                if (updatedItem.nickname) updatedItemData.nickname = updatedItem.nickname;
-
-                let updateCommand = {
-                    $set: updatedItem
-                };
-                return itemCollection.updateOne({
-                    _id: id
-                }, updateCommand).then(() => {
-                    fulfill(this.getItemById(id));
+                  return items().then((itemCollection) => {
+                    let updatedItemData = {};
+                    if (updatedItem.nickname) updatedItemData.nickname = updatedItem.nickname;                   
+                    let updateCommand = {
+                        $set: updatedItemData
+                    };
+                    return itemCollection.updateOne({_id: id}, updateCommand).then(() => {
+                        fulfill(this.getItemById(id));
+                    });
                 });
             });
         });
