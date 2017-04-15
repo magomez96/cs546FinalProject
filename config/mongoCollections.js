@@ -1,24 +1,21 @@
-const MongoClient = require("mongodb").MongoClient;;
+const dbConnection = require("./mongoConnection");
 
-const settings = {
-    mongoConfig: {
-        serverUrl: "mongodb://localhost:27017/",
-        database: ""
-    }
-};
+let getCollectionFn = (collection) => {
+    let _col = undefined;
 
-let fullMongoUrl = settings.mongoConfig.serverUrl + settings.mongoConfig.database;
-let _connection = undefined
-
-let connectDb = () => {
-    if (!_connection) {
-        _connection = MongoClient.connect(fullMongoUrl)
-            .then((db) => {
-                return db;
+    return () => {
+        if (!_col) {
+            _col = dbConnection().then(db => {
+                return db.collection(collection);
             });
+        }
+
+        return _col;
     }
+}
 
-    return _connection;
+module.exports = {
+    items: getCollectionFn("items"),
+    users: getCollectionFn("users"),
+    products: getCollectionFn("products")
 };
-
-module.exports = connectDb;
