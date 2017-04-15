@@ -46,13 +46,15 @@ let exportedMethods = {
             });
         });
     },
-    //TODO: Same issue with cannot read property of "then" type error
     removeUser(id) {
         return new Promise((fulfill, reject) => {
             return users().then((userCollection) => {
-                fulfill(userCollection.removeOne({ _id: id })).then((deletionInfo) => {
+                userCollection.removeOne({ _id: id }).then((deletionInfo) => {
                     if (deletionInfo.deletedCount === 0) {
                         reject(`Could not delete user with id of ${id}`);
+                    }
+                    else {
+                        fulfill();
                     }
                 });
             });

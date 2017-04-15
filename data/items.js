@@ -54,11 +54,13 @@ let exportedMethods = {
     removeItem(id) {
         return new Promise((fulfill, reject) => {
             return items().then((itemCollection) => {
-                fulfill(itemCollection.removeOne({
+                itemCollection.removeOne({
                     _id: id
-                })).then((deletionInfo) => {
+                }).then((deletionInfo) => {
                     if (deletionInfo.deletedCount === 0) {
                         reject(`Could not delete item with id of ${id}`);
+                    } else {
+                        fulfill();
                     }
                 });
             });
@@ -67,13 +69,15 @@ let exportedMethods = {
     updateItem(id, updatedItem) {
         return new Promise((fulfill, reject) => {
             return this.getItemById(id).then((currentItem) => {
-                  return items().then((itemCollection) => {
+                return items().then((itemCollection) => {
                     let updatedItemData = {};
-                    if (updatedItem.nickname) updatedItemData.nickname = updatedItem.nickname;                   
+                    if (updatedItem.nickname) updatedItemData.nickname = updatedItem.nickname;
                     let updateCommand = {
                         $set: updatedItemData
                     };
-                    return itemCollection.updateOne({_id: id}, updateCommand).then(() => {
+                    return itemCollection.updateOne({
+                        _id: id
+                    }, updateCommand).then(() => {
                         fulfill(this.getItemById(id));
                     });
                 });

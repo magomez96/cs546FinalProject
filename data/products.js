@@ -6,19 +6,21 @@ let exportedMethods = {
     getProductbyUPC(upc) {
         return new Promise((fulfill, reject) => {
             return products().then((productCollection) => {
-                return productCollection.findOne({ _id: upc }).then((product) => {
+                return productCollection.findOne({
+                    _id: upc
+                }).then((product) => {
                     if (!product) reject("product not found");
                     fulfill(product);
                 });
             });
         });
     },
-     getAllProducts() {
-         return new Promise((fulfill, reject) => {
+    getAllProducts() {
+        return new Promise((fulfill, reject) => {
             return products().then((productCollection) => {
                 fulfill(productCollection.find({}).toArray());
             });
-         });
+        });
     },
     //TODO: Enforce uniqueness of upc
     addProduct(upc, product_name, product_picture) {
@@ -38,13 +40,14 @@ let exportedMethods = {
             });
         });
     },
-    //TODO: issue on fulfill: TypeError "Cannot read property 'then" of undefined 
     removeProduct(upc) {
         return new Promise((fulfill, reject) => {
             return products().then((productCollection) => {
-                fulfill(productCollection.removeOne({ _id: upc })).then((deletionInfo) => {
+                productCollection.removeOne({_id: upc}).then((deletionInfo) => {
                     if (deletionInfo.deletedCount === 0) {
                         reject(`Could not delete product with upc of ${upc}`);
+                    } else {
+                        fulfill();
                     }
                 });
             });
@@ -61,7 +64,9 @@ let exportedMethods = {
                     $set: updatedProduct
                 };
                 return products().then((productCollection) => {
-                    productCollection.updateOne({ _id: upc }, updateCommand).then(() => {
+                    productCollection.updateOne({
+                        _id: upc
+                    }, updateCommand).then(() => {
                         fulfill(this.getProductbyUPC(upc));
                     });
                 });
