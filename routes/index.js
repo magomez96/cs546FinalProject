@@ -9,7 +9,7 @@ const constructorMethod = (app) => {
     app.use("/users", usersRoutes);
 
     app.use("*", (req, res) => {
-        res.redirect("/products");
+        res.sendStatus(404);
     })
 };
 
