@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
+const passport = require('passport');
 const usersData = data.users;
 
 router.get("/", (req, res) => {

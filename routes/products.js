@@ -1,32 +1,52 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
+const passport = require('passport');
 const productsData = data.products;
 
-router.get("/", (req, res) => {
-     productsData.getProductbyUPC("051500255162").then((gotProduct)=>{
+router.get("/:upc", (req, res) => {
+     productsData.getProductbyUPC(req.params.upc).then((gotProduct)=>{
      	res.json(gotProduct);
      }, () => {
         // Something went wrong with the server!
-        res.sendStatus(500);
+        res.status(500).json({message: "Internal Server Error"});
     });
 });
 
-router.get("/remove", (req, res) => {
-     productsData.removeProduct("041190571901").then(()=>{
-     	res.json("DONE");
+router.get("/", (req, res) => {
+     productsData.getAllProducts().then((productsList)=>{
+     	res.json(productsList);
      }, () => {
         // Something went wrong with the server!
-        res.sendStatus(500);
+        res.status(500).json({message: "Internal Server Error"});
     });
 });
 
-router.get("/all", (req, res) => {
-     productsData.getAllProducts().then((prodList)=>{
-     	res.json(prodList);
+router.post("/:upc", (req, res) => {
+    let productInfo = rec.body;
+     productsData.addProduct(rec.params.upc, productInfo.name, productInfo.pic).then((newProduct)=>{
+     	res.redirect(`/products/${newProduct.upc}`)
      }, () => {
         // Something went wrong with the server!
-        res.sendStatus(500);
+        res.status(500).json({message: "Internal Server Error"});
+    });
+});
+
+router.put("/:upc", (req, res) => {
+     productsData.updateProduct(req.params.upc, req.body).then((updatedProduct)=>{
+     	res.redirect(`/products/${updatedProduct.upc}`)
+     }, () => {
+        // Something went wrong with the server!
+        res.status(500).json({message: "Internal Server Error"});
+    });
+});
+
+router.delete("/:upc", (req, res) => {
+     productsData.removeProduct(req.params.upc).then(()=>{
+     	res.sendStatus(200); //Send success
+     }, () => {
+        // Something went wrong with the server!
+        res.status(500).json({message: "Internal Server Error"});
     });
 });
 
