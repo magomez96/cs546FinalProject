@@ -3,40 +3,42 @@ const router = express.Router();
 const data = require('../data');
 const passport = require('passport');
 const usersData = data.users;
+const bcrypt = require('bcrypt-nodejs');
 
-router.get("/", (req, res) => {
-     usersData.getUserById("821a00fb-31a4-44b1-8a3d-090cd697682b").then((gotUser)=>{
+router.get("/:userID", (req, res) => {
+     usersData.getUserById(req.params.userID).then((gotUser)=>{
      	res.json(gotUser);
      }, () => {
         // Something went wrong with the server!
-        res.sendStatus(500);
+        res.status(500).json({message: "Internal Server Error"});
     });
 });
 
-router.get("/remove", (req, res) => {
-     usersData.removeUser("821a00fb-31a4-44b1-8a3d-090cd697682b").then(()=>{
-     	res.json("DONE");
+router.post("/", (req, res) => {
+    let userInfo = req.body;
+     usersData.addUser(bcrypt.hashSync(userInfo.pass), usersData.session, userInfo.name, userInfo.diet, userInfo.email).then((newUser)=>{
+     	res.redirect(`/users/${newUser._id}`);
      }, () => {
         // Something went wrong with the server!
-        res.sendStatus(500);
+        res.status(500).json({message: "Internal Server Error"});
     });
 });
 
-router.get("/all", (req, res) => {
-     usersData.getAllUsers().then((userList)=>{
-     	res.json(userList);
+router.put("/:userID", (req, res) => {
+     usersData.updateUser(req.params.userID, req.body).then((updatedUser)=>{
+     	res.redirect(`/users/${updatedUser._id}`)
      }, () => {
         // Something went wrong with the server!
-        res.sendStatus(500);
+        res.status(500).json({message: "Internal Server Error"});
     });
 });
 
-router.get("/update", (req, res) => {
-     usersData.updateUser("821a00fb-31a4-44b1-8a3d-090cd697682b" , {"sessionId": "42", "diet": "somethiadfng", "name":"Bdaadsfasadfafdsfill Watersxs"}).then((updatedUser)=>{
-     	res.json(updatedUser);
+router.delete("/:userID", (req, res) => {
+     usersData.removeUser(req.params.userID).then(()=>{
+     	res.sendStatus(200); //Send success
      }, () => {
         // Something went wrong with the server!
-        res.sendStatus(500);
+        res.status(500).json({message: "Internal Server Error"});
     });
 });
 module.exports = router;
