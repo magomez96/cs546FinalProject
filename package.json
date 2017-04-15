@@ -4,6 +4,7 @@
   "description": "Tracks expiration dates of stuff in your fridge",
   "main": "app.js",
   "scripts": {
+    "seed": "node ./tasks/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
