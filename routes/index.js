@@ -7,6 +7,10 @@ const constructorMethod = (app) => {
     app.use("/products", productsRoutes);
     app.use("/items", itemsRoutes);
     app.use("/users", usersRoutes);
+
+    app.use("*", (req, res) => {
+        res.redirect("/products");
+    })
 };
 
 module.exports = constructorMethod;
