@@ -18,7 +18,7 @@ let exportedMethods = {
     getAllProducts() {
         return new Promise((fulfill, reject) => {
             return products().then((productCollection) => {
-                fulfill(productCollection.find({}).toArray());
+                fulfill(productCollection.find().toArray());
             });
         });
     },
@@ -43,7 +43,7 @@ let exportedMethods = {
     removeProduct(upc) {
         return new Promise((fulfill, reject) => {
             return products().then((productCollection) => {
-                productCollection.removeOne({_id: upc}).then((deletionInfo) => {
+                productCollection.removeOne({ _id: upc }).then((deletionInfo) => {
                     if (deletionInfo.deletedCount === 0) {
                         reject(`Could not delete product with upc of ${upc}`);
                     } else {

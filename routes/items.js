@@ -9,10 +9,8 @@ router.get("/", (req, res) => {
     if (req.isAuthenticated()) {
         itemsData.getAllItems(req.user.id).then((items) => {
             res.json(items);
-        }, () => {
-            res.status(500).json({
-                message: "Internal Server Error"
-            });
+        }).catch((err) => {
+            res.status(500).json({ error: err });
         });
     } else {
         res.status(401).json({
@@ -26,7 +24,7 @@ router.get("/:itemID", (req, res) => {
     if (req.isAuthenticated()) {
         itemsData.getItemById(req.params.itemID).then((item) => {
             res.json(item);
-        }, () => {
+        }).catch((err) => {
             res.status(404).json({
                 message: "Item not found"
             });
@@ -44,10 +42,8 @@ router.post("/", (req, res) => {
         let itemInfo = req.body;
         itemsData.addItem(req.user.id, itemInfo.nick, itemInfo.upc, itemInfo.quantity, itemInfo.purDate, itemInfo.expDate).then((newItem) => {
             res.redirect(`/items/${newItem._id}`);
-        }, () => {
-            res.status(500).json({
-                message: "Internal Server Error"
-            });
+        }).catch((err) => {
+            res.status(500).json({ error: err });
         });
     } else {
         res.status(401).json({
@@ -61,10 +57,8 @@ router.put("/:itemID", (req, res) => {
     if (req.isAuthenticated()) {
         itemsData.updateItem(req.params.itemID, req.body).then((updatedItem) => {
             res.redirect(`/items/${updatedItem._id}`);
-        }, () => {
-            res.status(500).json({
-                message: "Internal Server Error"
-            });
+        }).catch((err) => {
+            res.status(500).json({ error: err });
         });
     } else {
         res.status(401).json({
@@ -78,10 +72,8 @@ router.delete("/:itemID", (req, res) => {
     if (req.isAuthenticated()) {;
         itemsData.removeItem(req.params.itemID).then(() => {
             res.sendStatus(200); //Send success
-        }, () => {
-            res.status(500).json({
-                message: "Internal Server Error"
-            });
+        }).catch((err) => {
+            res.status(500).json({ error: err });
         });
     } else {
         res.status(401).json({
