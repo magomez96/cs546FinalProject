@@ -1,56 +1,85 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
+const passport = require('passport');
 const itemsData = data.items;
 
+//Get all items by user ID
 router.get("/", (req, res) => {
-     itemsData.getItem("830c3ef8-7077-4a05-82e9-948dde2dea6d").then((gotItem)=>{
-     	res.json(gotItem);
-     }, () => {
-        // Something went wrong with the server!
-        res.sendStatus(500);
-    });
+    if (req.isAuthenticated()) {
+        itemsData.getAllItems(req.user.id).then((items) => {
+            res.json(items);
+        }).catch((err) => {
+            res.status(500).json({ error: err });
+        });
+    } else {
+        res.status(401).json({
+            message: "Not logged in"
+        });
+    }
 });
 
-router.get("/remove", (req, res) => {
-     itemsData.removeItem("830c3ef8-7077-4a05-82e9-948dde2dea6d").then(()=>{
-     	res.json("DONE");
-     }, () => {
-        // Something went wrong with the server!
-        res.sendStatus(500);
-    });
+//Get a single item by ID
+router.get("/:itemID", (req, res) => {
+    if (req.isAuthenticated()) {
+        itemsData.getItemById(req.params.itemID).then((item) => {
+            res.json(item);
+        }).catch((err) => {
+            res.status(404).json({
+                message: "Item not found"
+            });
+        });
+    } else {
+        res.status(401).json({
+            message: "Not logged in"
+        });
+    }
 });
 
-router.get("/all", (req, res) => {
-     itemsData.getAllItems("c0b7f017-1222-4b31-a5be-bb0a993210cb").then((itemList)=>{
-     	res.json(itemList);
-     }, () => {
-        // Something went wrong with the server!
-        res.sendStatus(500);
-    });
+//Add an item, see line 44 for required field names
+router.post("/", (req, res) => {
+    if (req.isAuthenticated()) {
+        let itemInfo = req.body;
+        itemsData.addItem(req.user.id, itemInfo.nick, itemInfo.upc, itemInfo.quantity, itemInfo.purDate, itemInfo.expDate).then((newItem) => {
+            res.redirect(`/items/${newItem._id}`);
+        }).catch((err) => {
+            res.status(500).json({ error: err });
+        });
+    } else {
+        res.status(401).json({
+            message: "Not logged in"
+        });
+    }
 });
 
-
-router.get("/update", (req, res) => {
-     itemsData.updateItem("830c3ef8-7077-4a05-82e9-948dde2dea6d", {"nickname": "TESTING UPDATE"}).then((itemList)=>{
-     	res.json(itemList);
-     }, () => {
-        // Something went wrong with the server!
-        res.sendStatus(500);
-    });
+//Update an item
+router.put("/:itemID", (req, res) => {
+    if (req.isAuthenticated()) {
+        itemsData.updateItem(req.params.itemID, req.body).then((updatedItem) => {
+            res.redirect(`/items/${updatedItem._id}`);
+        }).catch((err) => {
+            res.status(500).json({ error: err });
+        });
+    } else {
+        res.status(401).json({
+            message: "Not logged in"
+        });
+    }
 });
 
-router.get("/add", (req, res) => {
-		let dateNow = new Date();
-		let formatedDate = dateNow.getMonth()+ 1 + "" + dateNow.getDay() + "" + dateNow.getFullYear();
-		let expireDate =  dateNow.getMonth()+ 1 + "" + dateNow.getDay() + "" + dateNow.getFullYear();
-		itemsData.addItem("c0b7f017-1222-4b31-a5be-bb0a993210cb", "Peanut Butter for PB&J", "051500255162", 3, formatedDate, expireDate).then((itemList)=>{
-     	    res.json(itemList);
-        }, () => {
-        // Something went wrong with the server!
-        res.sendStatus(500);
-    });
+//Delete an item, obviously
+router.delete("/:itemID", (req, res) => {
+    if (req.isAuthenticated()) {;
+        itemsData.removeItem(req.params.itemID).then(() => {
+            res.sendStatus(200); //Send success
+        }).catch((err) => {
+            res.status(500).json({ error: err });
+        });
+    } else {
+        res.status(401).json({
+            message: "Not logged in"
+        });
+    }
 });
-
 
 module.exports = router;
