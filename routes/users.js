@@ -6,7 +6,11 @@ const usersData = data.users;
 const bcrypt = require('bcrypt-nodejs');
 
 router.get("/", (req, res) => {
-    res.send("The login page goes here")
+    if (req.isAuthenticated()) {
+        res.redirect(`/users/${req.user._id}`);
+    } else {
+        res.redirect('/');
+    }
 });
 router.get("/:userID", (req, res) => {
     usersData.getUserById(req.params.userID).then((gotUser) => {
