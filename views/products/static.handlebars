@@ -1,0 +1,11 @@
+<ul class="productList">
+    {{#each this}} {{#if product_name}}
+    <li>
+        <div class="productContainer">
+            <h1>{{product_name}}</h1>
+            <img src="{{product_picture}}" />
+            <p>UPC: {{_id}}</p>
+        </div>
+    </li>
+    {{/if}} {{/each}}
+</ul>

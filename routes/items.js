@@ -7,7 +7,7 @@ const itemsData = data.items;
 //Get all items by user ID
 router.get("/", (req, res) => {
     if (req.isAuthenticated()) {
-        itemsData.getAllItems(req.user.id).then((items) => {
+        itemsData.getAllItems(req.user._id).then((items) => {
             res.json(items);
         }).catch((err) => {
             res.status(500).json({ error: err });
