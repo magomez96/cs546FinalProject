@@ -4,8 +4,8 @@ const data = require('../data');
 const productsData = data.products;
 
 router.get("/", (req, res) => {
-     productsData.getProductbyUPC("051500255162").then((gotProduct)=>{
-     	res.json(gotProduct);
+     productsData.getAllProducts().then((gotProducts)=>{
+     	res.render("layouts/main", gotProducts);
      }, () => {
         // Something went wrong with the server!
         res.sendStatus(500);
