@@ -15,6 +15,7 @@ router.get("/:upc", (req, res) => {
 
 router.get("/", (req, res) => {
     productsData.getAllProducts().then((productsList) => {
+        //Frontend stuff from Adam
         res.render("layouts/main", productsList);
     }).catch((err) => {
         // Something went wrong with the server!
