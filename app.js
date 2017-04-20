@@ -40,9 +40,8 @@ app.set('view engine', 'handlebars');
 app.use(session({
     secret: 'super secret keyboard cat!',
     resave: true,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}))
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -51,9 +50,9 @@ passport.serializeUser(function(user, done) {
     return done(null, user._id);
 });
 passport.deserializeUser(function(id, done) {
-    var userObj = usersData.getUserById(id);
-    return done(null, userObj);
-
+    usersData.getUserById(id).then((userObj) => {
+        return done(null, userObj);
+    });
 });
 
 passport.use(new LocalStrategy(

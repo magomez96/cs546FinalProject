@@ -7,8 +7,7 @@ const bcrypt = require('bcrypt-nodejs');
 
 router.get("/", (req, res) => {
     if (req.isAuthenticated()) {
-        console.log(req.user);
-        res.redirect(`/users/${req.user.email}`);
+        res.redirect(`/users/${req.user._id}`);
     } else {
         res.redirect('/');
     }
