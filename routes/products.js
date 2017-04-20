@@ -15,7 +15,7 @@ router.get("/:upc", (req, res) => {
 
 router.get("/", (req, res) => {
     productsData.getAllProducts().then((productsList) => {
-        res.json(productsList);
+        res.render("layouts/main", productsList);
     }).catch((err) => {
         // Something went wrong with the server!
         res.status(500).json({ error: err });
