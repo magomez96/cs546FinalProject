@@ -1,0 +1,13 @@
+<ul class="itemList">
+    {{#each this}} {{#if nickname}}
+    <li>
+        <div class="itemContainer">
+            <h1>{{nickname}}</h1>
+            <p>UPC: {{upc}}</p>
+            <p>Quantity: {{quantity}}</p>
+            <p>Purchase Date: {{date_of_purchase}}</p>
+            <p>Expiration Date: {{date_of_expiration}}</p>
+        </div>
+    </li>
+    {{/if}} {{/each}}
+</ul>

@@ -8,7 +8,7 @@ const itemsData = data.items;
 router.get("/", (req, res) => {
     if (req.isAuthenticated()) {
         itemsData.getAllItems(req.user._id).then((items) => {
-            res.json(items);
+            res.render("items/static", items);
         }).catch((err) => {
             res.status(500).json({ error: err });
         });
