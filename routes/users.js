@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 });
 router.get("/:userID", (req, res) => {
     usersData.getUserById(req.params.userID).then((gotUser) => {
-        res.json(gotUser); //Replace with frontend stuff
+        res.render("users/static", gotUser);
     }).catch((err) => {
         // Something went wrong with the server!
         res.status(500).json({ error: err });

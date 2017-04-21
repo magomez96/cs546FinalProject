@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 
 router.get("/", (req, res) => {
-    res.render("auth/static", {});
+    res.render("auth/static", { error: req.flash('error') });
 });
 
 router.get("/loginFail", (req, res) => {
@@ -20,7 +20,8 @@ router.get("/private", (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/private',
-    failureRedirect: '/loginFail',
+    failureRedirect: '/login',
+    failureFlash: true
 }));
 
 module.exports = router;

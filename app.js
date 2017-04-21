@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt-nodejs');
 const data = require('./data');
 const usersData = data.users;
 const LocalStrategy = require('passport-local').Strategy;
+const flash = require('connect-flash');
 
 const handlebarsInstance = exphbs.create({
     defaultLayout: 'main',
@@ -36,6 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(rewriteUnsupportedBrowserMethods);
 app.engine('handlebars', handlebarsInstance.engine);
 app.set('view engine', 'handlebars');
+app.use(flash());
 
 app.use(session({
     secret: 'super secret keyboard cat!',
@@ -60,10 +62,12 @@ passport.use(new LocalStrategy(
         process.nextTick(function() {
             usersData.getUserByEmail(username).then((userObj) => {
                 if (!userObj)
-                    return done(null, false);
+                    return done(null, false, { message: "User not found" });
                 if (!bcrypt.compareSync(password, userObj.hashedPassword))
-                    return done(null, false);
+                    return done(null, false, { message: "Invalid password" });
                 return done(null, userObj);
+            }).catch(() => {
+                return done(null, false, { message: "User not found" });
             });
         });
     }
