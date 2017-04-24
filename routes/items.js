@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data');
 const passport = require('passport');
 const itemsData = data.items;
+const productsData = data.products;
 
 //Get all items by user ID
 router.get("/", (req, res) => {
