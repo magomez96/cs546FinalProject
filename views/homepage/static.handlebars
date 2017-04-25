@@ -1,0 +1,30 @@
+
+{{#each this}}
+{{#if profile}}
+<!-- render user details -->
+
+<div id="user_profile">
+    <p>Name: {{profile.name}}</p>
+    <p>Email Address: {{profile.email}}</p>
+    <p>Diet: {{profile.diet}}</p>
+</div>
+{{/if}}
+{{/each}}
+
+
+<ul class="productList">
+    {{#each this}}
+    {{#if nickname}}
+    <li>
+        <div class="itemContainer">
+            <h2>{{nickname}}</h2>
+            <p>UPC: {{upc}}</p>
+            <p>Quantity: {{quantity}}</p>
+            <p>Purchase Date: {{date_of_purchase}}</p>
+            <p>Expiration Date: {{date_of_expiration}}</p>
+        </div>
+    </li>
+    {{/if}} {{/each}}
+</ul>
+
+
