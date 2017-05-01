@@ -1,10 +1,23 @@
-<ul class="itemList">
-    {{#each this}} {{#if nickname}}
+
+{{#each this}}
+{{#if profile}}
+<!-- render user details -->
+
+<div id="user_profile">
+    <p>Name: {{profile.name}}</p>
+    <p>Email Address: {{profile.email}}</p>
+    <p>Diet: {{profile.diet}}</p>
+</div>
+{{/if}}
+{{/each}}
+
+
+<ul class="productList">
+    {{#each this}}
+    {{#if nickname}}
     <li>
         <div class="itemContainer">
             <h2>{{nickname}}</h2>
-            <img src="{{product_picture}}" alt="Product Image" />
-            <p>Product Name: {{product_name}}</p>
             <p>UPC: {{upc}}</p>
             <p>Quantity: {{quantity}}</p>
             <p>Purchase Date: {{date_of_purchase}}</p>
@@ -13,3 +26,5 @@
     </li>
     {{/if}} {{/each}}
 </ul>
+
+
