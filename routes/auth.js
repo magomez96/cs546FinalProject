@@ -6,32 +6,15 @@ const usersData = data.users;
 const itemsData = data.items;
 const productsData = data.products;
 
-router.get("/login", (req, res) => {
-    req.logout();
-    res.render("auth/static", { error: req.flash('error') });
-})
-
-router.get("/", (req, res) => { //homepage
-    if (!req.isAuthenticated()) {
-        res.redirect("/login");
-    } else {
-        usersData.getUserById(req.user._id).then((gotUser) => {
-            itemsData.getAllItems(req.user._id).then((items) => {
-                res.render("homepage/static", [gotUser].concat(items));
-            })
-        });
-    }
-});
-
 router.get("/loginFail", (req, res) => {
     res.send('Failed to authenticate');
 });
 
-router.get("/private", (req, res) => {
+router.get("/", (req, res) => {
     if (req.isAuthenticated()) {
         res.redirect('/users/')
     } else {
-        res.redirect('/');
+        res.render("auth/static", { error: req.flash('error') });
     }
 });
 
@@ -40,5 +23,12 @@ router.post('/login', passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: true
 }));
+
+router.get("/logout", (req, res) => {
+    if (req.isAuthenticated()){
+        req.logout();
+        res.render("auth/static", { logoutMsg: "Logout successful" });
+    }
+});
 
 module.exports = router;
