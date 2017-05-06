@@ -1,16 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-<<<<<<< Updated upstream
 const data = require('../data');
 const usersData = data.users;
 const itemsData = data.items;
 const productsData = data.products;
-=======
 const bcrypt = require('bcrypt-nodejs');
-const data = require('../data');
-const usersData = data.users;
->>>>>>> Stashed changes
 
 router.get("/loginFail", (req, res) => {
     res.send('Failed to authenticate');
@@ -46,11 +41,8 @@ router.post('/register', (req, res) => {
     let email = req.body.email;
     let name = req.body.name;
     let diet = req.body.diet;
-    console.log(email);
-    console.log(name);
-    console.log(diet);
+ 
     bcrypt.hash(req.body.password, null, null, function(err, hash){
-        console.log(hash);
         return usersData.addUser(hash, 0, name, diet, email).then((newUser) =>{
             res.json(newUser)
         });
