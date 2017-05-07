@@ -6,7 +6,9 @@ const products = data.products;
 var rossId = 0
 var dateNow = new Date();
 var dateTomorrow = new Date();
+var dateYesterday = new Date();
 dateTomorrow.setDate(dateTomorrow.getDate() + 1); 
+dateYesterday.setDate(dateYesterday.getDate() - 1);
 
 dbConnection().then(db => {
     return db.dropDatabase().then(() => {
@@ -43,8 +45,8 @@ dbConnection().then(db => {
         return items.addItem(id, "Total Cereal", "016000275638", 3, formatedDate, expireDate);
     }).then((itemAdded) => {
         const id = itemAdded.userId;
-        let formatedDate = (dateNow.getMonth() + 1) + "-" + dateNow.getUTCDate() + "-" + dateNow.getFullYear();
-        let expireDate = (dateNow.getMonth() + 1) + "-" + dateNow.getUTCDate() + "-" + dateNow.getFullYear();
+        let formatedDate = (dateYesterday.getMonth() + 1) + "-" + dateYesterday.getUTCDate() + "-" + dateYesterday.getFullYear();
+        let expireDate = (dateYesterday.getMonth() + 1) + "-" + dateYesterday.getUTCDate() + "-" + dateYesterday.getFullYear();
         return items.addItem(id, "Oreos", "044000025298", 9000, formatedDate, expireDate);
     }).then((itemAdded) => {
         const id = rossId;
