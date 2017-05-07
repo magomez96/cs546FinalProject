@@ -37,3 +37,16 @@
 .container h1 {
     text-align: center;
 }
+
+.body-content {
+    padding-top: 70px;
+}
+
+.buttonAuth{
+    float: left;
+    vertical-align: top;
+}
+
+.loginBtn{
+    padding-right: 5px;
+}

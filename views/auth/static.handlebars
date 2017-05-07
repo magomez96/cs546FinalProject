@@ -14,10 +14,12 @@
   {{#if logoutMsg}}
     <div class="alert alert-success">{{logoutMsg}}</div>
   {{/if}}
-  <div class="form-group">
+  <div class="loginBtn buttonAuth form-group">
     <button type="submit" class="btn btn-default">Enter</button>
   </div>
 </form>
-<form id="registration-button" action="/registration" method="get">
-    <button type="submit" class="btn btn-default">Sign-up</button>
-</form>
+  <div class="signupBtn buttonAuth form-group">
+    <form id="registration-button" action="/registration" method="get">
+        <button type="submit" class="btn btn-default">Sign-up</button>
+    </form>
+  </div>
