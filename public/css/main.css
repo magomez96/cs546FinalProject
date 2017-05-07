@@ -37,3 +37,11 @@
 .container h1 {
     text-align: center;
 }
+
+.formBtn {
+    float:left; 
+}
+
+.loginBtn {
+    margin-right: 5px;
+}
