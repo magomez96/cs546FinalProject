@@ -83,6 +83,31 @@ let exportedMethods = {
                 });
             });
         });
+    },
+    joinProducts(userId){   
+        return new Promise((fulfill, reject) => {
+            return items().then((itemCollection) => {
+                var cursor = itemCollection.aggregate([
+                    {"$match": {"userId": userId}},
+                    {"$lookup": {
+                        "from": "products",
+                        "localField": "upc",
+                        "foreignField": "_id",
+                        "as": "product_info" 
+                    }}, 
+                    {"$addFields": {"product_name":"$product_info.product_name", "product_picture": "$product_info.product_picture"}},
+                    {"$unwind": "$product_name"}, {"$unwind": "$product_picture"},
+                    {"$project": {"product_info":0}},
+                ]);
+                cursor.toArray(function(err, result){
+                    if(err) {
+                        reject("Error performing join");
+                    } else {
+                        fulfill(result);
+                    }
+                });
+            });
+        });
     }
 }
 
