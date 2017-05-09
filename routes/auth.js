@@ -5,6 +5,7 @@ const data = require('../data');
 const usersData = data.users;
 const itemsData = data.items;
 const productsData = data.products;
+const bcrypt = require('bcrypt-nodejs');
 
 router.get("/login", (req, res) => {
     req.logout();
@@ -27,11 +28,11 @@ router.get("/loginFail", (req, res) => {
     res.send('Failed to authenticate');
 });
 
-router.get("/private", (req, res) => {
+router.get("/", (req, res) => {
     if (req.isAuthenticated()) {
         res.redirect('/users/')
     } else {
-        res.redirect('/');
+        res.render("auth/static", { error: req.flash('error') });
     }
 });
 
@@ -41,4 +42,27 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true
 }));
 
+router.get("/logout", (req, res) => {
+    if (req.isAuthenticated()){
+        req.logout();
+        res.render("auth/static", { logoutMsg: "Logout successful" });
+    }
+});
+
+router.get('/registration', (req, res) => {
+    res.render("auth/registration")
+});
+
+//TODO: Session ID stuff
+router.post('/register', (req, res) => {
+    let email = req.body.email;
+    let name = req.body.name;
+    let diet = req.body.diet;
+ 
+    bcrypt.hash(req.body.password, null, null, function(err, hash){
+        return usersData.addUser(hash, 0, name, diet, email).then((newUser) =>{
+            res.json(newUser)
+        });
+    });
+});
 module.exports = router;

@@ -8,7 +8,7 @@ const productsData = data.products;
 //Get all items by user ID
 router.get("/", (req, res) => {
     if (req.isAuthenticated()) {
-        itemsData.getAllItems(req.user._id).then((items) => {
+        itemsData.joinProducts(req.user._id).then((items) => {
             res.render("items/static", items);
         }).catch((err) => {
             res.status(500).json({ error: err });
