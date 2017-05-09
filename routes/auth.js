@@ -16,7 +16,7 @@ router.get("/", (req, res) => { //homepage
         res.redirect("/login");
     } else {
         usersData.getUserById(req.user._id).then((gotUser) => {
-            itemsData.getAllItems(req.user._id).then((items) => {
+            itemsData.joinProducts(req.user._id).then((items) => {
                 res.render("homepage/static", [gotUser].concat(items));
             })
         });
