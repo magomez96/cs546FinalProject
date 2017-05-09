@@ -26,9 +26,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let productInfo = req.body;
-        console.log(productInfo);
         productsData.addProduct(productInfo.upc, productInfo.name, productInfo.pic).then((newProduct) => {
-            console.log("we added the product");
             res.redirect("/products");
         }).catch((err) => {
             // Something went wrong with the server!

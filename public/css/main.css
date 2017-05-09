@@ -54,12 +54,17 @@ main p{
     margin-bottom: 10px;
     border-radius: 7px;
 
-    min-height: 230px;
+    height: 240px;
+    overflow-y: auto;
+}
+
+.itemContainer {
+    height: 290px;
 }
 
 .productContainer img, .itemContainer img {
-    width: 100px;
-    height: auto;
+    height: 100px;
+    width: auto;
     display: block;
     margin-left: auto;
     margin-right: auto;
