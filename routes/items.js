@@ -14,9 +14,7 @@ router.get("/", (req, res) => {
             res.status(500).json({ error: err });
         });
     } else {
-        res.status(401).json({
-            message: "Not logged in"
-        });
+        res.redirect("/login");
     }
 });
 
@@ -31,9 +29,7 @@ router.get("/:itemID", (req, res) => {
             });
         });
     } else {
-        res.status(401).json({
-            message: "Not logged in"
-        });
+        res.redirect("/login");
     }
 });
 
@@ -41,15 +37,13 @@ router.get("/:itemID", (req, res) => {
 router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let itemInfo = req.body;
-        itemsData.addItem(req.user.id, itemInfo.nick, itemInfo.upc, itemInfo.quantity, itemInfo.purDate, itemInfo.expDate).then((newItem) => {
-            res.redirect(`/items/${newItem._id}`);
+        itemsData.addItem(req.user._id, itemInfo.nick, itemInfo.upc, itemInfo.quantity, itemInfo.purDate, itemInfo.expDate).then((newItem) => {
+            res.redirect(`/items`);
         }).catch((err) => {
             res.status(500).json({ error: err });
         });
     } else {
-        res.status(401).json({
-            message: "Not logged in"
-        });
+        res.redirect("/login");
     }
 });
 
@@ -62,9 +56,7 @@ router.put("/:itemID", (req, res) => {
             res.status(500).json({ error: err });
         });
     } else {
-        res.status(401).json({
-            message: "Not logged in"
-        });
+        res.redirect("/login");
     }
 });
 
@@ -77,9 +69,7 @@ router.delete("/:itemID", (req, res) => {
             res.status(500).json({ error: err });
         });
     } else {
-        res.status(401).json({
-            message: "Not logged in"
-        });
+        res.redirect("/login");
     }
 });
 

@@ -1,6 +1,4 @@
-
-{{#each this}}
-{{#if profile}}
+ {{#each this}} {{#if profile}}
 <!-- render user details -->
 
 <div id="user_profile">
@@ -8,13 +6,21 @@
     <p>Email Address: {{profile.email}}</p>
     <p>Diet: {{profile.diet}}</p>
 </div>
-{{/if}}
-{{/each}}
+{{/if}} {{/each}}
 
+<form id="logout-form" action="/logout" method="get">
+    <div class="form-group">
+        <button type="submit" class="btn btn-logout">Logout</button>
+    </div>
+</form>
+
+<div class="homeItemInfo">
+<h2>Your Items</h2>
+<a href="/products">Add a new Item</a>
+</div>
 
 <ul class="productList">
-    {{#each this}}
-    {{#if nickname}}
+    {{#each this}} {{#if nickname}}
     <li>
         <div class="itemContainer">
             <h2>{{nickname}}</h2>
@@ -27,5 +33,4 @@
     </li>
     {{/if}} {{/each}}
 </ul>
-
 
