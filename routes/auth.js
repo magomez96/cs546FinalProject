@@ -18,11 +18,9 @@ router.get("/", (req, res) => { //homepage
     } else {
         usersData.getUserById(req.user._id).then((gotUser) => {
             itemsData.joinProducts(req.user._id).then((items) => {
-                    console.log(items)
                     items = items.sort(function(a,b) { 
                         return new Date(a.date_of_expiration).getTime() - new Date(b.date_of_expiration).getTime() 
                     }); 
-                    console.log(items)
                 res.render("homepage/static", [gotUser].concat(items));
             })
         });
