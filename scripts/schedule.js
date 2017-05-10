@@ -54,9 +54,9 @@ var generateEmail = function (todayExpire, tomorrowExpire, weekExpire, toEmail){
     tomorrowExpireString = !!tomorrowExpireString ? tomorrowExpireString : "None";
     weekExpireString= !!weekExpireString ? weekExpireString: "None";
    
-    todayExpireString = !!todayExpireString ? todayExpireString : "None";
-    tomorrowExpireString = !!tomorrowExpireString ? tomorrowExpireString : "None";
-    weekExpireString= !!weekExpireString ? weekExpireString: "None"
+    todayExpireString = '<p>Expires today: ' + todayExpireString.toString() + '</p>';
+    tomorrowExpireString = '<p>Expires tomorrow: ' + tomorrowExpireString.toString() + '</p>';
+    weekExpireString = '<p>Expires within 7 days: ' + weekExpireString.toString() + '</p>';
 
     let reportString = '<p> Here is your daily update from Spoiler Alert: </p>' + todayExpireString + tomorrowExpireString + weekExpireString;
     
