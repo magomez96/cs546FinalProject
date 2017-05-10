@@ -53,6 +53,10 @@ router.get('/registration', (req, res) => {
     res.render("auth/registration")
 });
 
+router.get("/registered", (req, res) => {
+    res.render("auth/static", {logoutMsg: "Please log in with your new credentials"});
+});
+
 //TODO: Session ID stuff
 router.post('/register', (req, res) => {
     let email = req.body.email;
@@ -61,7 +65,7 @@ router.post('/register', (req, res) => {
  
     bcrypt.hash(req.body.password, null, null, function(err, hash){
         return usersData.addUser(hash, 0, name, diet, email).then((newUser) =>{
-            res.json(newUser)
+            res.redirect("/registered");
         });
     });
 });
