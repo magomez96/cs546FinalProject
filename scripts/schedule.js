@@ -5,35 +5,33 @@ const usersData = data.users;
 const itemsData = data.items;
 const productsData = data.products;
 
-let dateToday = new Date()
-let dateTomorrow = new Date();
-let dateWeekAway = new Date();
-dateTomorrow.setDate(dateTomorrow.getDate() + 1);
-dateWeekAway.setDate(dateWeekAway.getDate() + 5);
-dateToday = dateToday.getDate();
-dateTomorrow = dateTomorrow.getDate();
-dateWeekAway = dateWeekAway.getDate();
+let dateToday = new Date().getDate()
+let dateTomorrow = dateToday + 1;
+let dateWeekAway = dateToday + 7;
 
 var calculateExpireItems = function (listItems) {
     let weekExpire = [];
     let todayExpire = [];
     let tomorrowExpire = [];
+    let alreadyExpire = [];
 
     listItems.forEach(function (item) {
         let expiration = item.date_of_expiration.split("-");
         expiration = new Date(expiration[2], expiration[0] - 1, expiration[1]);
         let expirationDate = expiration.getDate();
-        if (expirationDate + 1 == dateTomorrow) {
-            tomorrowExpire.push(item);
-        } else if (expirationDate =  dateToday) {
+        if (expirationDate ==  dateToday) {
             todayExpire.push(item);
-        } else if (expirationDate < dateWeekAway && expirationDate > dateToday) {
+        } else if (expirationDate == dateTomorrow) {
+            tomorrowExpire.push(item);
+        } else if (expirationDate < dateWeekAway && expirationDate > dateToday && expirationDate + 1 != dateTomorrow) {
             weekExpire.push(item);
-            //NOT WORKING
+        } else if (expirationDate < dateToday){
+            alreadyExpire.push(item);
+            productsData.removeProduct(item.upc)
         } 
-    });
-    return [todayExpire, tomorrowExpire, weekExpire];
 
+    });
+    return [todayExpire, tomorrowExpire, weekExpire, alreadyExpire];
 };
 
 let transporter = nodemailer.createTransport({
@@ -44,21 +42,25 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-var generateEmail = function (todayExpire, tomorrowExpire, weekExpire, toEmail){
+
+var generateEmail = function (todayExpire, tomorrowExpire, weekExpire, alreadyExpire, toEmail){
 
     let todayExpireString = todayExpire.map(function(a) {return a.nickname;}).join(', ');
-    let tomorrowExpireString = tomorrowExpire.map(function(a) {return a.nickname;}).join(', ') ;
+    let tomorrowExpireString = tomorrowExpire.map(function(a) {return a.nickname;}).join(', ');
     let weekExpireString = weekExpire.map(function(a) {return a.nickname;}).join(', ');
+    let alreadyExpireString = alreadyExpire.map(function(a) {return a.nickname;}).join(', ');
    
     todayExpireString = !!todayExpireString ? todayExpireString : "None";
     tomorrowExpireString = !!tomorrowExpireString ? tomorrowExpireString : "None";
-    weekExpireString= !!weekExpireString ? weekExpireString: "None";
-   
+    weekExpireString = !!weekExpireString ? weekExpireString: "None";
+    alreadyExpireString = !!alreadyExpireString ? alreadyExpireString: "None";
+
     todayExpireString = '<p>Expires today: ' + todayExpireString.toString() + '</p>';
     tomorrowExpireString = '<p>Expires tomorrow: ' + tomorrowExpireString.toString() + '</p>';
     weekExpireString = '<p>Expires within 7 days: ' + weekExpireString.toString() + '</p>';
+    alreadyExpireString = '<p> The following items just expired! Please remove them from your fridge/pantry: ' + alreadyExpireString.toString() + '</p>';
 
-    let reportString = '<p> Here is your daily update from Spoiler Alert: </p>' + todayExpireString + tomorrowExpireString + weekExpireString;
+    let reportString = '<p> Here is your daily update from Spoiler Alert: </p>' + todayExpireString + tomorrowExpireString + weekExpireString + alreadyExpireString;
     
     let mailOptions = {
         from: '"Spoiler Alert Team" <cs5s46spoileralert@gmail.com>',
@@ -86,7 +88,7 @@ module.exports = {
                         return itemsData.getAllItems(currUser._id)
                     }).then(function (itemList) {
                         resultItems = calculateExpireItems(itemList);
-                        generateEmail(resultItems[0], resultItems[1], resultItems[2], currUser.profile.email);
+                        generateEmail(resultItems[0], resultItems[1], resultItems[2], resultItems[3], currUser.profile.email);
                     });
                 });
             });
