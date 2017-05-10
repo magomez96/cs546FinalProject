@@ -24,10 +24,12 @@
         <button class="btn btn-default btn-cancel" onclick="hide('product')">Cancel</button>
     </div>
 </form>
-
+{{#if error}}
+    <div class="alert alert-danger">{{error}}</div>
+{{/if}}
 <section id="productListContainer">
 <ul class="productList">
-    {{#each this}} {{#if product_name}}
+    {{#each products}} {{#if product_name}}
     <li>
         <div class="productContainer">
             <h2>{{product_name}}</h2>
