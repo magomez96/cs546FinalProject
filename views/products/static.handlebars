@@ -17,7 +17,7 @@
     </div>
     <div class="form-group">
         <label for="pic">Link to Image</label>
-        <input type="text" class="form-control" id="pic" name="pic" required />
+        <input type="url" class="form-control" id="pic" name="pic" required />
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-default">Submit</button>
@@ -31,9 +31,9 @@
 <ul class="productList">
     {{#each products}} {{#if product_name}}
     <li>
-        <div class="productContainer">
+        <div id={{_id}} class="productContainer">
             <h2>{{product_name}}</h2>
-            <img src="{{product_picture}}" />
+            <img src="{{product_picture}}" alt="{{product_name}}" />
             <p>UPC: {{_id}}</p>
 
             <button class="btn btn-default" id="button-{{_id}}" onclick="show('{{_id}}')">Add to Inventory</button>
