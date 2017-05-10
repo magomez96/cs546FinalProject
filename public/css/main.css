@@ -2,26 +2,76 @@
  Adam's CSS for Frontend
 */
 
+body {
+    background-image: url("../img/bg.png");
+    background-repeat: repeat;
+}
+
+main {
+    font-size: 18px;
+}
+
+main p{
+    text-align: center;
+}
+
 .productList, .itemList {
+    margin-top: 20px;
     list-style: none;
+    display: block;
+    -webkit-padding-start: 0px;
+}
+
+#productListContainer {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#add-product {
+    /* the form for adding a new product */
+    text-align: left;
+    width: 75%;
+    margin: auto;
+}
+
+.productList li, .itemList li {
+    float: left;
+    margin-right: 10px;
+}
+
+.homeItemInfo {
+    text-align: center;
 }
 
 .productContainer, .itemContainer {
-    width: 25vw;
     border: 1px solid black;
-    padding-bottom: 5px;
+    padding: 12px;
+    padding-top: 0px;
+    margin-bottom: 10px;
+    border-radius: 7px;
+
+    height: 240px;
+    overflow-y: auto;
+}
+
+.itemContainer {
+    height: 290px;
 }
 
 .productContainer img, .itemContainer img {
-    width: 100px;
-    height: auto;
+    height: 100px;
+    width: auto;
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
 .productContainer h2, .itemContainer h2 {
-    font-size: 14px;
+    font-size: 24px;
     font-family: Arial, Helvetica, sans-serif;
     width: 100%;
     text-align: center;
@@ -34,19 +84,38 @@
     text-align: center;
 }
 
+.productContainer button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .container h1 {
     text-align: center;
 }
 
-.body-content {
-    padding-top: 70px;
+.formBtn {
+    float:left; 
 }
 
-.buttonAuth{
-    float: left;
-    vertical-align: top;
+.loginBtn {
+    margin-right: 5px;
 }
 
-.loginBtn{
-    padding-right: 5px;
+.hidden {
+    display: none;
+}
+
+.center {
+    text-align: center;
+}
+
+.btn-cancel {
+    margin-top: 6px;
+    background-color: indianred;
+    color: white;
+}
+
+#user_profile p {
+    text-align: left;
 }

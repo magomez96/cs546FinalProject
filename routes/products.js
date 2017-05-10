@@ -16,7 +16,7 @@ router.get("/:upc", (req, res) => {
 router.get("/", (req, res) => {
     productsData.getAllProducts().then((productsList) => {
         //Frontend stuff from Adam
-        res.render("products/static", productsList);
+        res.render("products/static", {products: productsList});
     }).catch((err) => {
         // Something went wrong with the server!
         res.status(500).json({ error: err });
@@ -29,7 +29,10 @@ router.post("/", (req, res) => {
         productsData.addProduct(productInfo.upc, productInfo.name, productInfo.pic).then((newProduct) => {
             res.redirect("/products");
         }).catch((err) => {
-            res.render("products/static", {products: productsList, error: err});
+                productsData.getAllProducts().then((productsList) => {
+                //Frontend stuff from Adam
+                res.render("products/static", {products: productsList, error: err});
+            });
         }); 
     } else {
         res.redirect("/login");
