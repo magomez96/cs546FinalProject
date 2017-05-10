@@ -23,7 +23,7 @@ dbConnection().then(db => {
         return products.addProduct("044000025298", "Nabisco Oreo ", "http://ecx.images-amazon.com/images/I/51cGjp6uMmL._SL160_.jpg");
     }).then(() => {
         //Pass = "1234"
-        return users.addUser("$2a$04$tO3YCc6S2x7ssKwlm3rOiecoicyYVK/xuBS/0F3MCJ8PQ8uOu4aTW", "1", "Bob Ross", "Happy little plants only", "fopahe@lgxscreen.com");
+        return users.addUser("$2a$04$tO3YCc6S2x7ssKwlm3rOiecoicyYVK/xuBS/0F3MCJ8PQ8uOu4aTW", "1", "Bob Ross", "Happy little plants only", "neydapom@mihep.com");
     }).then((bobross) => {
         rossId = bobross._id
         //Pass = "password"

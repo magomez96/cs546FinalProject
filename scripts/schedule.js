@@ -18,7 +18,7 @@ var calculateExpireItems = function (listItems) {
     let weekExpire = [];
     let todayExpire = [];
     let tomorrowExpire = [];
-    let alreadyExpired = [];
+
     listItems.forEach(function (item) {
         let expiration = item.date_of_expiration.split("-");
         expiration = new Date(expiration[2], expiration[0] - 1, expiration[1]);
@@ -30,11 +30,9 @@ var calculateExpireItems = function (listItems) {
         } else if (expirationDate < dateWeekAway && expirationDate > dateToday) {
             weekExpire.push(item);
             //NOT WORKING
-        } else if (expirationDate < dateToday) {
-            alreadyExpired.push(item);
-        }
+        } 
     });
-    return [todayExpire, tomorrowExpire, weekExpire, alreadyExpired];
+    return [todayExpire, tomorrowExpire, weekExpire];
 
 };
 
@@ -46,24 +44,23 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-var generateEmail = function (todayExpire, tomorrowExpire, weekExpire, alreadyExpired, toEmail){
+var generateEmail = function (todayExpire, tomorrowExpire, weekExpire, toEmail){
 
     let todayExpireString = todayExpire.map(function(a) {return a.nickname;}).join(', ');
     let tomorrowExpireString = tomorrowExpire.map(function(a) {return a.nickname;}).join(', ') ;
     let weekExpireString = weekExpire.map(function(a) {return a.nickname;}).join(', ');
-    let alreadyExpiredString = alreadyExpired.map(function(a) {return a.nickname;}).join(', ');
    
     todayExpireString = !!todayExpireString ? todayExpireString : "None";
     tomorrowExpireString = !!tomorrowExpireString ? tomorrowExpireString : "None";
     weekExpireString= !!weekExpireString ? weekExpireString: "None";
     alreadyExpiredString= !!alreadyExpiredString ? alreadyExpiredString: "None";
+   
+    todayExpireString = !!todayExpireString ? todayExpireString : "None";
+    tomorrowExpireString = !!tomorrowExpireString ? tomorrowExpireString : "None";
+    weekExpireString= !!weekExpireString ? weekExpireString: "None"
 
-
-    todayExpireString = '<p>Expires today: ' + todayExpireString.toString() + '</p>';
-    tomorrowExpireString = '<p>Expires tomorrow: ' + tomorrowExpireString.toString() + '</p>';
-    weekExpireString = '<p>Expires within 7 days: ' + weekExpireString.toString() + '</p>';
     alreadyExpiredString = '<p>Please remove/delete these expired foods: '+ alreadyExpiredString.toString() + '</p>';
-    let reportString = '<p> Here is your daily update from Spoiler Alert: </p>' + todayExpireString + tomorrowExpireString + weekExpireString + alreadyExpiredString;
+    let reportString = '<p> Here is your daily update from Spoiler Alert: </p>' + todayExpireString + tomorrowExpireString + weekExpireString;
     
     let mailOptions = {
         from: '"Spoiler Alert Team" <cs5s46spoileralert@gmail.com>',
@@ -74,6 +71,7 @@ var generateEmail = function (todayExpire, tomorrowExpire, weekExpire, alreadyEx
     transporter.sendMail(mailOptions, function(error, response){
         if(error){
             callback(null, error);
+            console.log("Couldn't send email");
         } else {
             callback(response);
         }
@@ -90,7 +88,7 @@ module.exports = {
                         return itemsData.getAllItems(currUser._id)
                     }).then(function (itemList) {
                         resultItems = calculateExpireItems(itemList);
-                        generateEmail(resultItems[0], resultItems[1], resultItems[2], resultItems[3], currUser.profile.email);
+                        generateEmail(resultItems[0], resultItems[1], resultItems[2], currUser.profile.email);
                     });
                 });
             });
