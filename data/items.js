@@ -16,7 +16,6 @@ let exportedMethods = {
         });
     },
 
-    //This should work
     getAllItems(id) {
         return new Promise((fulfill, reject) => {
             return items().then((itemCollection) => {
