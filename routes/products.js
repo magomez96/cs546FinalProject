@@ -29,7 +29,7 @@ router.post("/", (req, res) => {
         productsData.addProduct(productInfo.upc, productInfo.name, productInfo.pic).then((newProduct) => {
             res.redirect("/products");
         }).catch((err) => {
-            res.render("products/static", {products: productsList, errpr: err});
+            res.render("products/static", {products: productsList, error: err});
         }); 
     } else {
         res.redirect("/login");

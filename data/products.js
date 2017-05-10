@@ -32,7 +32,6 @@ let exportedMethods = {
                         product_name: product_name,
                         product_picture: product_picture
                     };
-
                     return productCollection.insertOne(newProduct).then((newInsertInformation) => {
                         return newInsertInformation.insertedId;
                     }).then((newId) => {
