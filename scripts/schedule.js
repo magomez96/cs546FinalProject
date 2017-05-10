@@ -53,13 +53,11 @@ var generateEmail = function (todayExpire, tomorrowExpire, weekExpire, toEmail){
     todayExpireString = !!todayExpireString ? todayExpireString : "None";
     tomorrowExpireString = !!tomorrowExpireString ? tomorrowExpireString : "None";
     weekExpireString= !!weekExpireString ? weekExpireString: "None";
-    alreadyExpiredString= !!alreadyExpiredString ? alreadyExpiredString: "None";
    
     todayExpireString = !!todayExpireString ? todayExpireString : "None";
     tomorrowExpireString = !!tomorrowExpireString ? tomorrowExpireString : "None";
     weekExpireString= !!weekExpireString ? weekExpireString: "None"
 
-    alreadyExpiredString = '<p>Please remove/delete these expired foods: '+ alreadyExpiredString.toString() + '</p>';
     let reportString = '<p> Here is your daily update from Spoiler Alert: </p>' + todayExpireString + tomorrowExpireString + weekExpireString;
     
     let mailOptions = {

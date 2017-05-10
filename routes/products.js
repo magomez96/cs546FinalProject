@@ -23,14 +23,17 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/:upc", (req, res) => {
-    let productInfo = req.body;
-    productsData.addProduct(req.params.upc, productInfo.name, productInfo.pic).then((newProduct) => {
-        res.redirect(`/products/${newProduct.upc}`)
-    }).catch((err) => {
-        // Something went wrong with the server!
-        res.status(500).json({ error: err });
-    });
+router.post("/", (req, res) => {
+    if (req.isAuthenticated()) {
+        let productInfo = req.body;
+        productsData.addProduct(productInfo.upc, productInfo.name, productInfo.pic).then((newProduct) => {
+            res.redirect("/products");
+        }).catch((err) => {
+            res.render("products/static", {products: productsList, errpr: err});
+        }); 
+    } else {
+        res.redirect("/login");
+    }
 });
 
 router.put("/:upc", (req, res) => {
