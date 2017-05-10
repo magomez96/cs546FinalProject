@@ -2,14 +2,17 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const passport = require('passport');
+const usersData = data.users;
 const itemsData = data.items;
 const productsData = data.products;
 
 //Get all items by user ID
 router.get("/", (req, res) => {
     if (req.isAuthenticated()) {
-        itemsData.joinProducts(req.user._id).then((items) => {
-            res.render("items/static", items);
+        usersData.getUserById(req.user._id).then((gotUser) => {
+            itemsData.joinProducts(req.user._id).then((items) => {
+                res.render("homepage/static", [gotUser].concat(items));
+            })
         }).catch((err) => {
             res.status(500).json({ error: err });
         });

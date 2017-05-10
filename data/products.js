@@ -36,7 +36,12 @@ let exportedMethods = {
                     return productCollection.insertOne(newProduct).then((newInsertInformation) => {
                         return newInsertInformation.insertedId;
                     }).then((newId) => {
-                        fulfill(this.getProductbyUPC(newId));
+                        return productCollection.findOne({
+                            _id: newId
+                        }).then((product) => {
+                            if (!product) reject("product not found");
+                            fulfill(product);
+                        });
                     });
                 });
             });
