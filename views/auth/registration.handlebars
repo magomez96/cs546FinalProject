@@ -2,19 +2,38 @@
 <form id="static-form" action="/register" method="post">
   <div class="form-group">
     <label for="email">Email</label>
-    <input type="text" class="form-control" id="email" name="email" placeholder="" value="{{email}}" required>
-  </div>
+      <div class="input-group">
+        <span class="input-group-addon">
+              <span class="glyphicon glyphicon-envelope"></span>
+        </span>
+      <input type="text" class="form-control" id="email" name="email" placeholder="" value="{{username}}" required>
+    </div>  </div>
   <div class="form-group">
     <label for="pass">Password</label>
-    <input type="password" class="form-control" id="pass" name="password" placeholder="" value="{{password}}" required>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-lock"></span>
+        </span>
+      <input type="password" class="form-control" id="pass" name="password" placeholder="" value="{{password}}" required>
+    </div>  
   </div>
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="name" class="form-control" id="name" name="name" placeholder="" value="{{name}}" required>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-user"></span>
+        </span>
+      <input type="name" class="form-control" id="name" name="name" placeholder="" value="{{name}}" required>
+    </div>  
   </div>
   <div class="form-group">
     <label for="diet">Diet</label>
-    <input type="diet" class="form-control" id="diet" name="diet" placeholder="" value="{{diet}}" optional>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-apple"></span>
+        </span>
+      <input type="diet" class="form-control" id="diet" name="diet" placeholder="" value="{{diet}}" optional>
+    </div> 
   </div>
   </div>
   <div class="form-group">
