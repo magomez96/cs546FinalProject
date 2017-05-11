@@ -20,39 +20,8 @@
                 <p>UPC: {{_id}}</p>
 
                 <div class="center">
-                    <button id="button-product" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal"> Add to Inventory</button>
+                    <button id="button-product" class="btn btn-primary" data-upc = {{_id}} data-toggle="modal" data-target="#addItemModal" > Add to Inventory</button>
                 </div>
-
-
-                {{!--<button class="btn btn-default" id="button-{{_id}}" onclick="show('{{_id}}')">Add to Inventory</button>
-
-                <form class="hidden" id="add-{{_id}}" action="/items" method="post">
-                    <div class="form-group">
-                        <label for="nick">Nickname</label>
-                        <input type="text" class="form-control" id="nick" name="nick" required />
-                    </div>
-                    <div class="form-group hidden">
-                        <label for="upc">UPC</label>
-                        <input type="number" class="form-control" id="upc" name="upc" value="{{_id}}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="purDate">Purchase Date</label>
-                        <input type="date" class="form-control" id="purDate" name="purDate" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="expDate">Expiration Date</label>
-                        <input type="date" class="form-control" id="expDate" name="expDate" required />
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-default">Submit</button>
-                        <button class="btn btn-default btn-cancel" onclick="hide('{{_id}}')">Cancel</button>
-                    </div>
-                </form>--}}
-
             </div>
         </li>
         {{/if}} {{/each}}
@@ -108,7 +77,7 @@
                     </div>
                     <div class="form-group hidden">
                         <label for="upc">UPC</label>
-                        <input type="number" class="form-control" id="upc" name="upc" value="{{_id}}" />
+                        <input type="number" class="form-control" id="upc" name="upc" value="" />
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
@@ -133,3 +102,6 @@
         </div>
     </div>
 </div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="public/js/modal_data.js"></script>
