@@ -8,6 +8,7 @@ const productsData = data.products;
 
 //Get all items by user ID
 router.get("/", (req, res) => {
+    res.redirect("/");
     if (req.isAuthenticated()) {
         usersData.getUserById(req.user._id).then((gotUser) => {
             itemsData.joinProducts(req.user._id).then((items) => {
@@ -41,7 +42,7 @@ router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let itemInfo = req.body;
         itemsData.addItem(req.user._id, itemInfo.nick, itemInfo.upc, itemInfo.quantity, itemInfo.purDate, itemInfo.expDate).then((newItem) => {
-            res.redirect(`/items`);
+            res.redirect(`/`);
         }).catch((err) => {
             res.status(500).json({ error: err });
         });

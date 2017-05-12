@@ -1,10 +1,13 @@
 <script type="text/javascript" src="public/js/products.js"></script>
 
+
+{{#if user}}
 <p>Don't see what you want? Add a new product to our database!</p>
 
 <div class="center">
     <button id="button-product" class="btn btn-primary" data-toggle="modal" data-target="#addProdModal"> Add New Product</button>
 </div>
+{{/if}}
 
 
 {{#if error}}
@@ -12,19 +15,31 @@
 {{/if}}
 <section id="productListContainer">
     <ul class="productList">
-        {{#each products}} {{#if product_name}}
-        <li>
-            <div id={{_id}} class="productContainer">
-                <h2>{{product_name}}</h2>
-                <img src="{{product_picture}}" alt="{{product_name}}" />
-                <p>UPC: {{_id}}</p>
+        {{#if user}}
+            {{#each products}} {{#if product_name}}
+            <li>
+                <div id={{_id}} class="productContainer">
+                    <h2>{{product_name}}</h2>
+                    <img src="{{product_picture}}" alt="{{product_name}}" />
+                    <p>UPC: {{_id}}</p>
 
-                <div class="center">
-                    <button id="button-product" class="btn btn-primary" data-upc = {{_id}} data-toggle="modal" data-target="#addItemModal" > Add to Inventory</button>
+                    <div class="center">
+                        <button id="button-product" class="btn btn-primary" data-upc = {{_id}} data-toggle="modal" data-target="#addItemModal" > Add to Inventory</button>
+                    </div>
                 </div>
-            </div>
-        </li>
-        {{/if}} {{/each}}
+            </li>
+            {{/if}} {{/each}}
+        {{else}}
+            {{#each products}} {{#if product_name}}
+            <li>
+                <div id={{_id}} class="productContainer">
+                    <h2>{{product_name}}</h2>
+                    <img src="{{product_picture}}" alt="{{product_name}}" />
+                    <p>UPC: {{_id}}</p>
+                </div>
+            </li>
+            {{/if}} {{/each}}
+        {{/if}}
     </ul>
 </section>
 

@@ -21,7 +21,7 @@ router.get("/", (req, res) => { //homepage
                     items = items.sort(function(a,b) { 
                         return new Date(a.date_of_expiration).getTime() - new Date(b.date_of_expiration).getTime() 
                     }); 
-                res.render("homepage/static", [gotUser].concat(items));
+                res.render("homepage/static", {user: gotUser, items: items});
             })
         });
     }
@@ -30,7 +30,7 @@ router.get("/", (req, res) => { //homepage
 router.get("/loginFail", (req, res) => {
     res.send('Failed to authenticate');
 });
-
+/*
 router.get("/", (req, res) => {
     if (req.isAuthenticated()) {
         res.redirect('/users/')
@@ -38,7 +38,7 @@ router.get("/", (req, res) => {
         res.render("auth/static", { error: req.flash('error') });
     }
 });
-
+*/
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',

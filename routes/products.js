@@ -16,7 +16,10 @@ router.get("/:upc", (req, res) => {
 router.get("/", (req, res) => {
     productsData.getAllProducts().then((productsList) => {
         //Frontend stuff from Adam
-        res.render("products/static", {products: productsList});
+        if (req.isAuthenticated())
+            res.render("products/static", {user: req.user, products: productsList});
+        else 
+            res.render("products/static", {products: productsList});
     }).catch((err) => {
         // Something went wrong with the server!
         res.status(500).json({ error: err });

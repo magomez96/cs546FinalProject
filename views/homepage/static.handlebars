@@ -1,13 +1,15 @@
- {{#each this}} {{#if profile}}
+<script type="text/javascript" src="public/js/homepage.js"></script>
+
+
+{{#if user}}
 <!-- render user details -->
 
 <div id="user_profile">
-    <p>Name: {{profile.name}}</p>
-    <p>Email Address: {{profile.email}}</p>
-    <p>Diet: {{profile.diet}}</p>
+    <p>Name: {{user.profile.name}}</p>
+    <p>Email Address: {{user.profile.email}}</p>
+    <p>Diet: {{user.profile.diet}}</p>
 </div>
-{{/if}} {{/each}}
-
+{{/if}}
 <form id="logout-form" action="/logout" method="get">
     <div class="form-group">
         <button type="submit" class="btn btn-logout">Logout</button>
@@ -20,9 +22,9 @@
 </div>
 
 <ul class="productList">
-    {{#each this}} {{#if nickname}}
+    {{#each items}}
     <li>
-        <div class="itemContainer">
+        <div class="itemContainer" data-expDate="{{date_of_expiration}}">
             <h2>{{nickname}}</h2>
             <img src="{{product_picture}}" alt="{{product_name}}" />
             <p>UPC: {{upc}}</p>
@@ -31,6 +33,6 @@
             <p>Expiration Date: {{date_of_expiration}}</p>
         </div>
     </li>
-    {{/if}} {{/each}}
+    {{/each}}
 </ul>
 
