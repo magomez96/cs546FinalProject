@@ -10,6 +10,7 @@ const data = require('./data');
 const usersData = data.users;
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
+const scheduler = require('./scripts/schedule');
 
 const handlebarsInstance = exphbs.create({
     defaultLayout: 'main',
@@ -80,3 +81,5 @@ app.listen(3000, () => {
     console.log("We've now got a server!");
     console.log("Your routes will be running on http://localhost:3000");
 });
+
+scheduler.simpleTask();
