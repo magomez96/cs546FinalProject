@@ -1,23 +1,14 @@
-function show(ID) {
-    //console.log(ID);
-    var formToShow = document.getElementById("add-" + ID.toString());
-    var buttonToHide = document.getElementById("button-" + ID.toString());
-    var liToResize = document.getElementById(ID.toString());
-    //console.log("add-" + ID.toString())
-    formToShow.classList.remove("hidden");
-    buttonToHide.classList.add("hidden");
-    liToResize.classList.remove("itemContainer");
-    liToResize.classList.add("itemContainerBig");
-}
+$(document).ready(function (e) {
+  $('#addItemModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget)
+    var recipient = button.data('upc')
+    var modal = $(this)
+    modal.find('#upc').val(recipient)
+  })
+});
 
-function hide(ID) {
-    //console.log(ID);
-    var formToHide = document.getElementById("add-" + ID.toString());
-    var buttonToShow = document.getElementById("button-" + ID.toString());
-    var liToResize = document.getElementById(ID.toString());
-    //console.log("add-" + ID.toString())
-    formToHide.classList.add("hidden");
-    buttonToShow.classList.remove("hidden");
-    liToResize.classList.remove("itemContainerBig");
-    liToResize.classList.add("itemContainer");
-}
+$(document).ready(function () {
+  var now = new Date(),
+    maxDate = now.toISOString().substring(0, 10);
+  $('#purDate').attr('max', maxDate);
+});
