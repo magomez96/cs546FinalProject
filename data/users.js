@@ -32,9 +32,7 @@ let exportedMethods = {
             });
         });
     },
-    //Password hashed here or in routes?
-    //Should email be in profiles? Are we treating as a username
-    //or should it be separate 
+
     addUser(hashedPassword, sessionId, name, diet, email) {
         return new Promise((fulfill, reject) => {
             return users().then((userCollection) => {

@@ -19,7 +19,6 @@ router.get("/", (req, res) => { //homepage
         res.redirect("/login");
     } else {
         usersData.getUserById(req.user._id).then((gotUser) => {
-            console.log(gotUser.sessionId);
             usersData.updateUser(gotUser._id, {'sessionId': uuid.v4()});
             itemsData.joinProducts(req.user._id).then((items) => {
                     items = items.sort(function(a,b) { 

@@ -26,7 +26,12 @@
     <li>
         <div class="itemContainer" data-expDate="{{date_of_expiration}}">
             <h2>{{nickname}}</h2>
-            <img src="{{product_picture}}" alt="{{product_name}}" />
+            <div class = "show-image">
+                <img src="{{product_picture}}" alt="{{product_name}}" />
+                <form id="delete-item" action="/items/{{_id}}" method="get">
+                    <button id = "itemBut" type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
             <p>UPC: {{upc}}</p>
             <p>Quantity: {{quantity}}</p>
             <p>Purchase Date: {{date_of_purchase}}</p>
@@ -35,4 +40,3 @@
     </li>
     {{/each}}
 </ul>
-

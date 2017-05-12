@@ -24,21 +24,22 @@ router.get("/", (req, res) => {
 });
 
 //Get a single item by ID
-router.get("/:itemID", (req, res) => {
-    if (req.isAuthenticated()) {
-        itemsData.getItemById(req.params.itemID).then((item) => {
-            res.json(item);
-        }).catch((err) => {
-            res.status(404).json({
-                message: "Item not found"
-            });
-        });
-    } else {
-        res.redirect("/login");
-    }
-});
+// router.get("/:itemID", (req, res) => {
+//     if (req.isAuthenticated()) {
+//         itemsData.getItemById(req.params.itemID).then((item) => {
+//             res.json(item);
+//         }).catch((err) => {
+//             res.status(404).json({
+//                 message: "Item not found"
+//             });
+//         });
+//     } else {
+//         res.redirect("/login");
+//     }
+// });
 
 //Add an item, see line 44 for required field names
+
 router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let itemInfo = req.body;
@@ -66,10 +67,10 @@ router.put("/:itemID", (req, res) => {
 });
 
 //Delete an item, obviously
-router.delete("/:itemID", (req, res) => {
+router.get("/:itemID", (req, res) => {
     if (req.isAuthenticated()) {;
         itemsData.removeItem(req.params.itemID).then(() => {
-            res.sendStatus(200); //Send success
+            res.redirect('/')
         }).catch((err) => {
             res.status(500).json({ error: err });
         });
