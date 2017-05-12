@@ -157,40 +157,17 @@ main p {
     margin-right: auto;
 }
 
-.itemContainer:hover {
-    opacity: 0.5;
-}
-
-div.itemContainer {
-    position: relative;
-    float:left;
-    margin:5px;
-}
-div.itemContainer:hover {
-    
-    opacity:0.5;
-}
-div.itemContainer:hover button {
-    display: block;
-}
-div.itemContainer  butotn {
-    position:absolute;
-    display:none;
-}
-div.itemContainer  button {
-    top:50%;
-    left:50%;
-}
-
 div.show-image {
     position: relative;
     margin:5px;
 }
-div.show-image:hover img{
-    opacity:0.5;
+div.itemContainer:hover {
+    background: rgba(0, 0, 0, 0.5);
 }
-div.show-image:hover button {
+
+div.itemContainer:hover button {
     display: block;
+    opacity:1;
 }
 div.show-image button {
     position:absolute;
@@ -202,3 +179,4 @@ div.show-image button {
     margin-right: -50%;
     transform: translate(-50%, -50%)
 }
+
