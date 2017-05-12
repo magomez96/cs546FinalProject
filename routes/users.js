@@ -23,7 +23,7 @@ router.get("/:userID", (req, res) => {
 
 router.post("/", (req, res) => {
     let userInfo = req.body;
-    usersData.addUser(bcrypt.hashSync(userInfo.pass), usersData.session, userInfo.name, userInfo.diet, userInfo.email).then((newUser) => {
+    usersData.addUser(bcrypt.hashSync(userInfo.pass), usersData.session, xss(userInfo.name), xss(userInfo.diet), xss(userInfo.email)).then((newUser) => {
         res.redirect(`/users/${newUser._id}`);
     }).catch((err) => {
         // Something went wrong with the server!

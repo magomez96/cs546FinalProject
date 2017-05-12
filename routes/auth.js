@@ -6,6 +6,8 @@ const usersData = data.users;
 const itemsData = data.items;
 const productsData = data.products;
 const bcrypt = require('bcrypt-nodejs');
+const uuid = require('node-uuid');
+
 
 router.get("/login", (req, res) => {
     req.logout();
@@ -17,6 +19,8 @@ router.get("/", (req, res) => { //homepage
         res.redirect("/login");
     } else {
         usersData.getUserById(req.user._id).then((gotUser) => {
+            console.log(gotUser.sessionId);
+            usersData.updateUser(gotUser._id, {'sessionId': uuid.v4()});
             itemsData.joinProducts(req.user._id).then((items) => {
                     items = items.sort(function(a,b) { 
                         return new Date(a.date_of_expiration).getTime() - new Date(b.date_of_expiration).getTime() 
@@ -30,15 +34,7 @@ router.get("/", (req, res) => { //homepage
 router.get("/loginFail", (req, res) => {
     res.send('Failed to authenticate');
 });
-/*
-router.get("/", (req, res) => {
-    if (req.isAuthenticated()) {
-        res.redirect('/users/')
-    } else {
-        res.render("auth/static", { error: req.flash('error') });
-    }
-});
-*/
+
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',

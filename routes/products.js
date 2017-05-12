@@ -29,7 +29,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let productInfo = req.body;
-        productsData.addProduct(productInfo.upc, productInfo.name, productInfo.pic).then((newProduct) => {
+        productsData.addProduct(productInfo.upc, xss(productInfo.name), productInfo.pic).then((newProduct) => {
             res.redirect("/products");
         }).catch((err) => {
                 productsData.getAllProducts().then((productsList) => {

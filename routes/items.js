@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const passport = require('passport');
+const xss = require('xss');
 const usersData = data.users;
 const itemsData = data.items;
 const productsData = data.products;
@@ -41,7 +42,7 @@ router.get("/:itemID", (req, res) => {
 router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let itemInfo = req.body;
-        itemsData.addItem(req.user._id, itemInfo.nick, itemInfo.upc, itemInfo.quantity, itemInfo.purDate, itemInfo.expDate).then((newItem) => {
+        itemsData.addItem(req.user._id, xss(itemInfo.nick), itemInfo.upc, itemInfo.quantity, itemInfo.purDate, itemInfo.expDate).then((newItem) => {
             res.redirect(`/`);
         }).catch((err) => {
             res.status(500).json({ error: err });

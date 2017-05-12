@@ -74,7 +74,7 @@ let exportedMethods = {
         return new Promise((fulfill, reject) => {
             return this.getUserById(id).then((currentUser) => {
                 return users().then((userCollection) => {
-                    if (updatedUser.sessionId) userCollection.updateOne({ _id: id }, { $set: { sessionId: updatedUser.sessionId } });
+                    if (updatedUser.sessionId) userCollection.updateOne({ _id: id }, { $set: { 'sessionId': updatedUser.sessionId } });
                     if (updatedUser.name) userCollection.updateOne({ _id: id }, { $set: { 'profile.name': updatedUser.name } });
                     if (updatedUser.diet) userCollection.updateOne({ _id: id }, { $set: { 'profile.diet': updatedUser.diet } });
                     if (updatedUser.email) userCollection.updateOne({ _id: id }, { $set: { 'profile.email': updatedUser.email } });
