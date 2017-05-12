@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const passport = require('passport');
+const xss = require("xss");
 const productsData = data.products;
 
 router.get("/:upc", (req, res) => {

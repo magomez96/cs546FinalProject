@@ -32,11 +32,11 @@ dbConnection().then(db => {
         return products.addProductInit("044000025298", "Nabisco Oreo ", "http://ecx.images-amazon.com/images/I/51cGjp6uMmL._SL160_.jpg");
     }).then(() => {
         //Pass = "1234"
-        return users.addUser("$2a$04$tO3YCc6S2x7ssKwlm3rOiecoicyYVK/xuBS/0F3MCJ8PQ8uOu4aTW", "1", "Bob Ross", "Happy little plants only", "neydapom@mihep.com");
+        return users.addUser("$2a$04$tO3YCc6S2x7ssKwlm3rOiecoicyYVK/xuBS/0F3MCJ8PQ8uOu4aTW", "1", "Bob Ross", "Happy little plants only", "cs546bobross@mailinator.com ");
     }).then((bobross) => {
         rossId = bobross._id
         //Pass = "password"
-        return users.addUser("$2a$04$FpQEGLPDC.E.aWyBtB0vlOdy5MLSpVha390795nfmkI71ML2H8Iu6", "2", "Jane Doe", "Gluten free", "wibuq@nada.email");
+        return users.addUser("$2a$04$FpQEGLPDC.E.aWyBtB0vlOdy5MLSpVha390795nfmkI71ML2H8Iu6", "2", "Jane Doe", "Gluten free", "cs546janedoe@mailinator.com");
     }).then((janeDoe) => {
         const userId = janeDoe._id;
         let formatedDate = (dateNow.getMonth() + 1) + "-" + dateNow.getUTCDate() + "-" + dateNow.getFullYear();
