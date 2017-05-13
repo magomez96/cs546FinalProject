@@ -66,7 +66,7 @@ var generateEmail = function(todayExpire, tomorrowExpire, weekExpire, alreadyExp
         from: '"Spoiler Alert Team" <cs5s46spoileralert@gmail.com>',
         to: toEmail,
         subject: "Your daily report",
-        text: reportString
+        html: reportString
     };
     transporter.sendMail(mailOptions, function(error, response) {
         if (error) {
