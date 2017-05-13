@@ -33,8 +33,7 @@ router.post("/", (req, res) => {
 
 router.put("/:userID", (req, res) => {
     usersData.updateUser(req.params.userID, req.body).then((updatedUser) => {
-        res.redirect(`/`)
-        //res.redirect(`/users/${updatedUser._id}`)
+        res.redirect("/");
     }).catch((err) => {
         // Something went wrong with the server!
         res.status(500).json({ error: err });

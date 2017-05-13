@@ -24,6 +24,7 @@
     "connect-flash": "^0.1.1",
     "express": "^4.15.2",
     "express-handlebars": "^3.0.0",
+    "express-method-override": "0.0.3",
     "express-session": "^1.15.2",
     "mongodb": "^2.2.25",
     "node-cron": "^1.1.3",

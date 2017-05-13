@@ -63,7 +63,9 @@
             <div class="modal-header">
                 <h3 class="modal-title" id="editUserLabel">Edit Profile</h3>
             </div>
-            <form id="update-user" action="/users/{{user._id}}" method="put">
+            <form id="update-user" action="/users/{{user._id}}" method="post">
+             <input type="hidden" name="_method" value="put">
+
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="name">Name</label>
