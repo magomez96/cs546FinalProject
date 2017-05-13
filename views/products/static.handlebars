@@ -20,7 +20,7 @@
                     <img src="{{product_picture}}" alt="{{product_name}}" />
                     <p>UPC: {{_id}}</p>
                     <div class="center">
-                        <button id="button-product" class="btn btn-secondary" data-upc = {{_id}} data-toggle="modal" data-target="#addItemModal" > Add to Inventory</button>
+                        <button id="button-product-{{_id}}" class="btn btn-secondary" data-upc = {{_id}} data-toggle="modal" data-target="#addItemModal" > Add to Inventory</button>
                     </div>
                 </div>
             </li>
@@ -51,8 +51,8 @@
             <form id="add-product" action="/products" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="upc">UPC</label>
-                        <input type="number" class="form-control" id="upc" name="upc" required />
+                        <label for="pupc">UPC</label>
+                        <input type="number" class="form-control" id="pupc" name="upc" required />
                     </div>
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -96,7 +96,7 @@
                     </div>
                     <div class="form-group">
                         <label for="purDate">Purchase Date</label>
-                        <input type="date" class="form-control" id="purDate" name="purDate" max="" required />
+                        <input type="date" class="form-control" id="purDate" name="purDate" required />
                     </div>
                     <div class="form-group">
                         <label for="expDate">Expiration Date</label>

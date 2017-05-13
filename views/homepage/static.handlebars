@@ -40,8 +40,8 @@
             <h2>{{nickname}}</h2>
             <div class="show-image">
                 <img src="{{product_picture}}" alt="{{product_name}}" />
-                <form id="delete-item" action="/items/{{_id}}" method="get">
-                    <button id="itemBut" type="submit" class="btn btn-danger">Delete</button>
+                <form id="delete-item-{{_id}}" action="/items/{{_id}}" method="get">
+                    <button id="itemBut{{_id}}" type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>
             <p>UPC: {{upc}}</p>
