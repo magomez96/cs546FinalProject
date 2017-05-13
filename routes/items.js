@@ -2,54 +2,50 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const passport = require('passport');
+const xss = require('xss');
+const usersData = data.users;
 const itemsData = data.items;
 const productsData = data.products;
 
 //Get all items by user ID
 router.get("/", (req, res) => {
+    res.redirect("/");
     if (req.isAuthenticated()) {
-        itemsData.getAllItems(req.user._id).then((items) => {
-            res.render("items/static", items);
+        usersData.getUserById(req.user._id).then((gotUser) => {
+            itemsData.joinProducts(req.user._id).then((items) => {
+                res.render("homepage/static", [gotUser].concat(items));
+            })
         }).catch((err) => {
             res.status(500).json({ error: err });
         });
     } else {
-        res.status(401).json({
-            message: "Not logged in"
-        });
+        res.redirect("/login");
     }
 });
 
-//Get a single item by ID
-router.get("/:itemID", (req, res) => {
-    if (req.isAuthenticated()) {
-        itemsData.getItemById(req.params.itemID).then((item) => {
-            res.json(item);
-        }).catch((err) => {
-            res.status(404).json({
-                message: "Item not found"
-            });
-        });
-    } else {
-        res.status(401).json({
-            message: "Not logged in"
-        });
+function changeDateFormat(inputDate){  //from yyyy-mm-dd to mm-dd-yyyy
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
     }
-});
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+    return month + '-' + day + '-' + year;
+}
 
-//Add an item, see line 44 for required field names
 router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let itemInfo = req.body;
-        itemsData.addItem(req.user.id, itemInfo.nick, itemInfo.upc, itemInfo.quantity, itemInfo.purDate, itemInfo.expDate).then((newItem) => {
-            res.redirect(`/items/${newItem._id}`);
+        var date = new Date(itemInfo.purDate)
+
+        itemsData.addItem(req.user._id, xss(itemInfo.nick), itemInfo.upc, itemInfo.quantity, changeDateFormat(itemInfo.purDate), changeDateFormat(itemInfo.expDate)).then((newItem) => {
+            res.redirect(`/`);
         }).catch((err) => {
             res.status(500).json({ error: err });
         });
     } else {
-        res.status(401).json({
-            message: "Not logged in"
-        });
+        res.redirect("/login");
     }
 });
 
@@ -62,24 +58,20 @@ router.put("/:itemID", (req, res) => {
             res.status(500).json({ error: err });
         });
     } else {
-        res.status(401).json({
-            message: "Not logged in"
-        });
+        res.redirect("/login");
     }
 });
 
 //Delete an item, obviously
-router.delete("/:itemID", (req, res) => {
+router.get("/:itemID", (req, res) => {
     if (req.isAuthenticated()) {;
         itemsData.removeItem(req.params.itemID).then(() => {
-            res.sendStatus(200); //Send success
+            res.redirect('/')
         }).catch((err) => {
             res.status(500).json({ error: err });
         });
     } else {
-        res.status(401).json({
-            message: "Not logged in"
-        });
+        res.redirect("/login");
     }
 });
 

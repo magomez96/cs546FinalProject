@@ -1,11 +1,118 @@
-<ul class="productList">
-    {{#each this}} {{#if product_name}}
-    <li>
-        <div class="productContainer">
-            <h2>{{product_name}}</h2>
-            <img src="{{product_picture}}" />
-            <p>UPC: {{_id}}</p>
+{{#if user}}
+<p>Don't see what you want? Add a new product to our database!</p>
+
+<div class="center">
+    <button id="button-product" class="btn btn-primary" data-toggle="modal" data-target="#addProdModal"> Add New Product</button>
+</div>
+{{/if}}
+
+
+{{#if error}}
+<div class="alert alert-danger">{{error}}</div>
+{{/if}}
+<section id="productListContainer">
+    <ul class="productList">
+        {{#if user}}
+            {{#each products}} {{#if product_name}}
+            <li>
+                <div id={{_id}} class="productContainer">
+                    <h2>{{product_name}}</h2>
+                    <img src="{{product_picture}}" alt="{{product_name}}" />
+                    <p>UPC: {{_id}}</p>
+                    <div class="center">
+                        <button id="button-product-{{_id}}" class="btn btn-secondary" data-upc = {{_id}} data-toggle="modal" data-target="#addItemModal" > Add to Inventory</button>
+                    </div>
+                </div>
+            </li>
+            {{/if}} {{/each}}
+        {{else}}
+            {{#each products}} {{#if product_name}}
+            <li>
+                <div id={{_id}} class="productContainer">
+                    <h2>{{product_name}}</h2>
+                    <img src="{{product_picture}}" alt="{{product_name}}" />
+                    <p>UPC: {{_id}}</p>
+                </div>
+            </li>
+            {{/if}} {{/each}}
+        {{/if}}
+    </ul>
+</section>
+
+
+{{!--MODALS--}}
+
+<div class="modal fade" id="addProdModal" tabindex="-1" role="dialog" aria-labelledby="addProdLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="addProdLabel">Add New Product</h3>
+            </div>
+            <form id="add-product" action="/products" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="pupc">UPC</label>
+                        <input type="number" class="form-control" id="pupc" name="upc" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="pic">Link to Image</label>
+                        <input type="url" class="form-control" id="pic" name="pic" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"> Cancel </button>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </li>
-    {{/if}} {{/each}}
-</ul>
+    </div>
+</div>
+
+<div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="addItemLabel">Add Item</h3>
+            </div>
+            <form action="/items" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nick">Nickname</label>
+                        <input type="text" class="form-control" id="nick" name="nick" required />
+                    </div>
+                    <div class="form-group hidden">
+                        <label for="upc">UPC</label>
+                        <input type="number" class="form-control" id="upc" name="upc" value="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="purDate">Purchase Date</label>
+                        <input type="date" class="form-control" id="purDate" name="purDate" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="expDate">Expiration Date</label>
+                        <input type="date" class="form-control" id="expDate" name="expDate" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"> Cancel </button>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="public/js/products.js"></script>

@@ -1,0 +1,54 @@
+<script type="text/javascript" src="public/js/homepage.js"></script>
+
+
+<div class="legendColor">
+    <p> Legend: </p>
+    <ul class="legend">
+        <li><span class="expireToday"></span> Today</li>
+        <li><span class="expireTomorrow"></span> Tomorrow</li>
+        <li><span class="expireThisWeek"></span> This Week</li>
+    </ul>
+</div>
+
+
+{{#if user}}
+<!-- render user details -->
+
+<div id="user_profile">
+    <p>Name: {{user.profile.name}}</p>
+    <p>Email Address: {{user.profile.email}}</p>
+    <p>Diet: {{user.profile.diet}}</p>
+</div>
+{{/if}}
+
+<form id="logout-form" action="/logout" method="get">
+    <div class="form-group">
+        <button type="submit" class="btn btn-logout">Logout</button>
+    </div>
+</form>
+
+
+<div class="homeItemInfo">
+    <h2>Your Items</h2>
+    <a href="/products" class="btn btn-primary">Add a new Item</a>
+</div>
+
+<ul class="productList">
+    {{#each items}}
+    <li>
+        <div class="itemContainer" data-expDate="{{date_of_expiration}}">
+            <h2>{{nickname}}</h2>
+            <div class="show-image">
+                <img src="{{product_picture}}" alt="{{product_name}}" />
+                <form id="delete-item-{{_id}}" action="/items/{{_id}}" method="get">
+                    <button id="itemBut{{_id}}" type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            <p>UPC: {{upc}}</p>
+            <p>Quantity: {{quantity}}</p>
+            <p>Purchase Date: {{date_of_purchase}}</p>
+            <p>Expiration Date: {{date_of_expiration}}</p>
+        </div>
+    </li>
+    {{/each}}
+</ul>

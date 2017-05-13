@@ -32,9 +32,7 @@ let exportedMethods = {
             });
         });
     },
-    //Password hashed here or in routes?
-    //Should email be in profiles? Are we treating as a username
-    //or should it be separate 
+
     addUser(hashedPassword, sessionId, name, diet, email) {
         return new Promise((fulfill, reject) => {
             return users().then((userCollection) => {
@@ -74,7 +72,7 @@ let exportedMethods = {
         return new Promise((fulfill, reject) => {
             return this.getUserById(id).then((currentUser) => {
                 return users().then((userCollection) => {
-                    if (updatedUser.sessionId) userCollection.updateOne({ _id: id }, { $set: { sessionId: updatedUser.sessionId } });
+                    if (updatedUser.sessionId) userCollection.updateOne({ _id: id }, { $set: { 'sessionId': updatedUser.sessionId } });
                     if (updatedUser.name) userCollection.updateOne({ _id: id }, { $set: { 'profile.name': updatedUser.name } });
                     if (updatedUser.diet) userCollection.updateOne({ _id: id }, { $set: { 'profile.diet': updatedUser.diet } });
                     if (updatedUser.email) userCollection.updateOne({ _id: id }, { $set: { 'profile.email': updatedUser.email } });

@@ -2,38 +2,201 @@
  Adam's CSS for Frontend
 */
 
-.productList, .itemList {
+body {
+    background-image: url("../img/bg.png");
+    background-repeat: repeat;
+}
+
+main {
+    font-size: 18px;
+}
+
+main p {
+    text-align: center;
+}
+
+.productList,
+.itemList {
+    margin-top: 20px;
     list-style: none;
+    display: block;
+    -webkit-padding-start: 0px;
 }
 
-.productContainer, .itemContainer {
-    width: 25vw;
-    border: 1px solid black;
-    padding-bottom: 5px;
-}
-
-.productContainer img, .itemContainer img {
-    width: 100px;
-    height: auto;
+#productListContainer {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-.productContainer h2, .itemContainer h2 {
-    font-size: 14px;
+#add-product {
+    /* the form for adding a new product */
+    text-align: left;
+    width: 75%;
+    margin: auto;
+}
+
+.productList li,
+.itemList li {
+    float: left;
+    margin-right: 10px;
+}
+
+.homeItemInfo {
+    text-align: center;
+}
+
+.productContainer,
+.itemContainer {
+    border: 1px solid black;
+    padding: 12px;
+    padding-top: 0px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-radius: 7px;
+    height: auto;
+}
+
+.test {
+    background-color: black;
+}
+
+.expireToday {
+    border: 1px dotted red;
+    background-color: #ee0000;
+    color: white;
+}
+
+.expireTomorrow {
+    border: 1px dotted indianred;
+    background-color: #c84e4e;
+    color: white;
+}
+
+.expireThisWeek {
+    background-color: burlywood;
+}
+
+.legendColor {
+    position: fixed;
+    right: 0;
+    margin-right: 50px; 
+    top: 50%; 
+}
+
+.legend { 
+    list-style: none; 
+    float: left;
+}
+
+.legend span { 
+    border: 1px solid #ccc;
+    float: left; 
+    width: 12px; 
+    height: 12px; 
+    margin: 2px; 
+}
+
+.itemContainerBig {
+    height: 600px;
+}
+
+.productContainer img,
+.itemContainer img {
+    height: 100px;
+    width: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 6px;
+}
+
+.productContainer h2,
+.itemContainer h2 {
+    font-size: 24px;
     font-family: Arial, Helvetica, sans-serif;
     width: 100%;
     text-align: center;
 }
 
-.productContainer p, .itemContainer p {
+.productContainer p,
+.itemContainer p {
     font-size: 10px;
     font-family: Courier New, Courier, monospace;
     width: 100%;
     text-align: center;
 }
 
+.productContainer button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .container h1 {
     text-align: center;
 }
+
+.formBtn {
+    float: left;
+}
+
+.loginBtn {
+    margin-right: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.center {
+    text-align: center;
+}
+
+.btn-cancel {
+    margin-top: 6px;
+    background-color: #c84e4e;
+    color: white;
+}
+
+.btn-logout {
+    background-color: #c0c0c0;
+}
+
+#user_profile p {
+    text-align: left;
+}
+
+#login-form,
+#reg-form {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.show-image {
+    position: relative;
+    margin:5px;
+}
+div.itemContainer:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+div.itemContainer:hover button {
+    display: block;
+    opacity:1;
+}
+div.show-image button {
+    position:absolute;
+    display:none;
+}
+div.show-image button {
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+

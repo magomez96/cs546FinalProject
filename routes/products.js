@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const passport = require('passport');
+const xss = require("xss");
 const productsData = data.products;
 
 router.get("/:upc", (req, res) => {
@@ -16,21 +17,30 @@ router.get("/:upc", (req, res) => {
 router.get("/", (req, res) => {
     productsData.getAllProducts().then((productsList) => {
         //Frontend stuff from Adam
-        res.render("products/static", productsList);
+        if (req.isAuthenticated())
+            res.render("products/static", {user: req.user, products: productsList});
+        else 
+            res.render("products/static", {products: productsList});
     }).catch((err) => {
         // Something went wrong with the server!
         res.status(500).json({ error: err });
     });
 });
 
-router.post("/:upc", (req, res) => {
-    let productInfo = req.body;
-    productsData.addProduct(req.params.upc, productInfo.name, productInfo.pic).then((newProduct) => {
-        res.redirect(`/products/${newProduct.upc}`)
-    }).catch((err) => {
-        // Something went wrong with the server!
-        res.status(500).json({ error: err });
-    });
+router.post("/", (req, res) => {
+    if (req.isAuthenticated()) {
+        let productInfo = req.body;
+        productsData.addProduct(productInfo.upc, xss(productInfo.name), productInfo.pic).then((newProduct) => {
+            res.redirect("/products");
+        }).catch((err) => {
+                productsData.getAllProducts().then((productsList) => {
+                //Frontend stuff from Adam
+                res.render("products/static", {products: productsList, error: err});
+            });
+        }); 
+    } else {
+        res.redirect("/login");
+    }
 });
 
 router.put("/:upc", (req, res) => {

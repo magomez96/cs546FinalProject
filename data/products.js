@@ -22,8 +22,32 @@ let exportedMethods = {
             });
         });
     },
-    //TODO: Enforce uniqueness of upc
     addProduct(upc, product_name, product_picture) {
+        return new Promise((fulfill, reject) => {
+            return this.getProductbyUPC(upc).then((productRet) => {
+                reject("Duplicate UPC detected")
+            }).catch(function(reason){
+                  return products().then((productCollection) => {
+                    let newProduct = {
+                        _id: upc,
+                        product_name: product_name,
+                        product_picture: product_picture
+                    };
+                    return productCollection.insertOne(newProduct).then((newInsertInformation) => {
+                        return newInsertInformation.insertedId;
+                    }).then((newId) => {
+                        return productCollection.findOne({
+                            _id: newId
+                        }).then((product) => {
+                            if (!product) reject("product not found");
+                            fulfill(product);
+                        });
+                    });
+                });
+            });
+        });
+    },
+    addProductInit(upc, product_name, product_picture) {
         return new Promise((fulfill, reject) => {
             return products().then((productCollection) => {
                 let newProduct = {
@@ -31,13 +55,13 @@ let exportedMethods = {
                     product_name: product_name,
                     product_picture: product_picture
                 };
-
                 return productCollection.insertOne(newProduct).then((newInsertInformation) => {
                     return newInsertInformation.insertedId;
                 }).then((newId) => {
                     fulfill(this.getProductbyUPC(newId));
                 });
-            });
+            });    
+
         });
     },
     removeProduct(upc) {
