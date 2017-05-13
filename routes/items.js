@@ -23,27 +23,23 @@ router.get("/", (req, res) => {
     }
 });
 
-//Get a single item by ID
-// router.get("/:itemID", (req, res) => {
-//     if (req.isAuthenticated()) {
-//         itemsData.getItemById(req.params.itemID).then((item) => {
-//             res.json(item);
-//         }).catch((err) => {
-//             res.status(404).json({
-//                 message: "Item not found"
-//             });
-//         });
-//     } else {
-//         res.redirect("/login");
-//     }
-// });
-
-//Add an item, see line 44 for required field names
+function changeDateFormat(inputDate){  //from yyyy-mm-dd to mm-dd-yyyy
+    var splitDate = inputDate.split('-');
+    if(splitDate.count == 0){
+        return null;
+    }
+    var year = splitDate[0];
+    var month = splitDate[1];
+    var day = splitDate[2]; 
+    return month + '-' + day + '-' + year;
+}
 
 router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let itemInfo = req.body;
-        itemsData.addItem(req.user._id, xss(itemInfo.nick), itemInfo.upc, itemInfo.quantity, itemInfo.purDate, itemInfo.expDate).then((newItem) => {
+        var date = new Date(itemInfo.purDate)
+
+        itemsData.addItem(req.user._id, xss(itemInfo.nick), itemInfo.upc, itemInfo.quantity, changeDateFormat(itemInfo.purDate), changeDateFormat(itemInfo.expDate)).then((newItem) => {
             res.redirect(`/`);
         }).catch((err) => {
             res.status(500).json({ error: err });
