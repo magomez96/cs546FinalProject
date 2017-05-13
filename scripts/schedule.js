@@ -80,7 +80,8 @@ var generateEmail = function (todayExpire, tomorrowExpire, weekExpire, alreadyEx
 
 module.exports = {
     simpleTask: function () {
-        cron.schedule('*/1 * * * *', function () {
+        //Every midnight it will run
+        cron.schedule('0 0 0 * *', function () {
             return usersData.getAllUsers().then((allUsers) => {
                 var sequence = Promise.resolve();
                 allUsers.forEach(function (currUser) {
