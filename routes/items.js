@@ -23,14 +23,14 @@ router.get("/", (req, res) => {
     }
 });
 
-function changeDateFormat(inputDate){  //from yyyy-mm-dd to mm-dd-yyyy
+function changeDateFormat(inputDate) { //from yyyy-mm-dd to mm-dd-yyyy
     var splitDate = inputDate.split('-');
-    if(splitDate.count == 0){
+    if (splitDate.count == 0) {
         return null;
     }
     var year = splitDate[0];
     var month = splitDate[1];
-    var day = splitDate[2]; 
+    var day = splitDate[2];
     return month + '-' + day + '-' + year;
 }
 
@@ -63,7 +63,7 @@ router.put("/:itemID", (req, res) => {
 });
 
 //Delete an item, obviously
-router.get("/:itemID", (req, res) => {
+router.delete("/:itemID", (req, res) => {
     if (req.isAuthenticated()) {;
         itemsData.removeItem(req.params.itemID).then(() => {
             res.redirect('/')
