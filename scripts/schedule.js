@@ -79,9 +79,9 @@ var generateEmail = function(todayExpire, tomorrowExpire, weekExpire, alreadyExp
 };
 
 module.exports = {
-    simpleTask: function () {
+    simpleTask: function() {
         //Every midnight it will run
-        cron.schedule('0 0 0 * *', function () {
+        cron.schedule('0 0 0 * * *', function() {
             return usersData.getAllUsers().then((allUsers) => {
                 var sequence = Promise.resolve();
                 allUsers.forEach(function(currUser) {
