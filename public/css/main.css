@@ -80,6 +80,26 @@ main p {
     background-color: burlywood;
 }
 
+.legendColor {
+    position: fixed;
+    right: 0;
+    margin-right: 50px; 
+    top: 50%; 
+}
+
+.legend { 
+    list-style: none; 
+    float: left;
+}
+
+.legend span { 
+    border: 1px solid #ccc;
+    float: left; 
+    width: 12px; 
+    height: 12px; 
+    margin: 2px; 
+}
+
 .itemContainerBig {
     height: 600px;
 }
