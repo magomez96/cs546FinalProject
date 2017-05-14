@@ -40,6 +40,8 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true
 }));
 
+/*After logout redir to sign in page with success message
+*/
 router.get("/logout", (req, res) => {
     if (req.isAuthenticated()){
         req.logout();
@@ -51,11 +53,14 @@ router.get('/registration', (req, res) => {
     res.render("auth/registration")
 });
 
+/*After signup
+*/
 router.get("/registered", (req, res) => {
     res.render("auth/static", {logoutMsg: "Please log in with your new credentials"});
 });
 
-//TODO: Session ID stuff
+/*Form for sign up for new user 
+*/
 router.post('/register', (req, res) => {
     let email = req.body.email;
     let name = req.body.name;

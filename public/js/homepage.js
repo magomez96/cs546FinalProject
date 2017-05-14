@@ -1,3 +1,6 @@
+/* Determine if item on homepage expires today, tomorrow or this this week 
+ * and add the proper class to it for css styling
+*/
 window.onload = function() {
     var items = document.getElementsByClassName("itemContainer");
     for (var i = 0; i < items.length; i++) {

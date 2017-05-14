@@ -3,6 +3,8 @@ const items = mongoCollections.items;
 const uuid = require('node-uuid');
 
 let exportedMethods = {
+    /*Get item given user Id and return that item if successful
+    */
     getItemById(id) {
         return new Promise((fulfill, reject) => {
             return items().then((itemCollection) => {
@@ -15,7 +17,9 @@ let exportedMethods = {
             });
         });
     },
-
+    /*Get all items given user Id and return array of item objects 
+     *belonging to the user 
+    */
     getAllItems(id) {
         return new Promise((fulfill, reject) => {
             return items().then((itemCollection) => {
@@ -28,7 +32,9 @@ let exportedMethods = {
             });
         });
     },
-
+    /*Add item given all required fields for a specific user
+     *and return that item 
+    */
     addItem(userId, nickname, upc, quantity, date_of_purchase, date_of_expiration) {
         return new Promise((fulfill, reject) => {
             return items().then((itemCollection) => {
@@ -50,6 +56,8 @@ let exportedMethods = {
             });
         });
     },
+    /*Remove item given user Id for a specific user
+    */
     removeItem(id) {
         return new Promise((fulfill, reject) => {
             return items().then((itemCollection) => {
@@ -65,6 +73,9 @@ let exportedMethods = {
             });
         });
     },
+    /*Update item given user Id and desired fields and return
+     *that item
+    */
     updateItem(id, updatedItem) {
         return new Promise((fulfill, reject) => {
             return this.getItemById(id).then((currentItem) => {
@@ -83,6 +94,10 @@ let exportedMethods = {
             });
         });
     },
+
+    /*Perform a left outer join on products and items collections 
+     *in order to get the right picture for each item. 
+    */
     joinProducts(userId){   
         return new Promise((fulfill, reject) => {
             return items().then((itemCollection) => {

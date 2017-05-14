@@ -12,6 +12,8 @@ router.get("/", (req, res) => {
         res.redirect('/');
     }
 });
+/*Get specific user
+*/
 router.get("/:userID", (req, res) => {
     usersData.getUserById(req.params.userID).then((gotUser) => {
         res.render("users/static", gotUser);
@@ -20,7 +22,8 @@ router.get("/:userID", (req, res) => {
         res.status(500).json({ error: err });
     });
 });
-
+/*Add new user via form
+*/
 router.post("/", (req, res) => {
     let userInfo = req.body;
     usersData.addUser(bcrypt.hashSync(userInfo.pass), usersData.session, xss(userInfo.name), xss(userInfo.diet), xss(userInfo.email)).then((newUser) => {
@@ -30,7 +33,8 @@ router.post("/", (req, res) => {
         res.status(500).json({ error: err });
     });
 });
-
+/*Update specific user info via form
+*/
 router.put("/:userID", (req, res) => {
     usersData.updateUser(req.params.userID, req.body).then((updatedUser) => {
         res.redirect("/");
@@ -40,6 +44,8 @@ router.put("/:userID", (req, res) => {
     });
 });
 
+/*Delete specific user
+*/
 router.delete("/:userID", (req, res) => {
     usersData.removeUser(req.params.userID).then(() => {
         res.sendStatus(200); //Send success

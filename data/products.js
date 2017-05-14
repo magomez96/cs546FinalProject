@@ -3,6 +3,8 @@ const products = mongoCollections.products;
 const uuid = require('node-uuid');
 
 let exportedMethods = {
+    /*Get product given upc and return that product if successful
+    */
     getProductbyUPC(upc) {
         return new Promise((fulfill, reject) => {
             return products().then((productCollection) => {
@@ -15,6 +17,8 @@ let exportedMethods = {
             });
         });
     },
+    /*Get all products for "store" page display
+    */
     getAllProducts() {
         return new Promise((fulfill, reject) => {
             return products().then((productCollection) => {
@@ -22,6 +26,9 @@ let exportedMethods = {
             });
         });
     },
+    /*Add new product given upc, name and picture link
+     *Handles duplicate upcs by ignoring them
+    */
     addProduct(upc, product_name, product_picture) {
         return new Promise((fulfill, reject) => {
             return this.getProductbyUPC(upc).then((productRet) => {
@@ -47,6 +54,9 @@ let exportedMethods = {
             });
         });
     },
+    /*Add new product given upc, name and picture link
+     *Does not hanlde duplicate upcs, used only for seed
+    */
     addProductInit(upc, product_name, product_picture) {
         return new Promise((fulfill, reject) => {
             return products().then((productCollection) => {
@@ -64,6 +74,8 @@ let exportedMethods = {
 
         });
     },
+    /*Remove product given its upc
+    */
     removeProduct(upc) {
         return new Promise((fulfill, reject) => {
             return products().then((productCollection) => {
@@ -77,6 +89,9 @@ let exportedMethods = {
             });
         });
     },
+    /*Update product given upc and desired fields and return
+     *that product
+    */
     updateProduct(upc, updatedProduct) {
         return new Promise((fulfill, reject) => {
             return this.getProductbyUPC(upc).then((currentProduct) => {

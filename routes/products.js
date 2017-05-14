@@ -5,6 +5,8 @@ const passport = require('passport');
 const xss = require("xss");
 const productsData = data.products;
 
+/*Get a specific product
+*/
 router.get("/:upc", (req, res) => {
     productsData.getProductbyUPC(req.params.upc).then((gotProduct) => {
         res.json(gotProduct);
@@ -13,7 +15,9 @@ router.get("/:upc", (req, res) => {
         res.status(500).json({ error: err });
     });
 });
-
+/*"Store"-front page that displays all products
+ *used by any of the users
+*/ 
 router.get("/", (req, res) => {
     productsData.getAllProducts().then((productsList) => {
         //Frontend stuff from Adam
@@ -26,7 +30,8 @@ router.get("/", (req, res) => {
         res.status(500).json({ error: err });
     });
 });
-
+/*Add new product after form is filled
+*/
 router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let productInfo = req.body;
@@ -42,7 +47,8 @@ router.post("/", (req, res) => {
         res.redirect("/login");
     }
 });
-
+/*Update a specific product
+*/
 router.put("/:upc", (req, res) => {
     productsData.updateProduct(req.params.upc, req.body).then((updatedProduct) => {
         res.redirect(`/products/${updatedProduct.upc}`)
@@ -52,6 +58,8 @@ router.put("/:upc", (req, res) => {
     });
 });
 
+/*Delete a specific product 
+*/
 router.delete("/:upc", (req, res) => {
     productsData.removeProduct(req.params.upc).then(() => {
         res.sendStatus(200); //Send success
