@@ -8,7 +8,7 @@ const itemsData = data.items;
 const productsData = data.products;
 
 /*Get all items by user ID
-*/
+ */
 router.get("/", (req, res) => {
     res.redirect("/");
     if (req.isAuthenticated()) {
@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
 });
 
 /*Converts string of format yyyy-mm-dd to mm-dd-yyyy
-*/
+ */
 function changeDateFormat(inputDate) { //from yyyy-mm-dd to mm-dd-yyyy
     var splitDate = inputDate.split('-');
     if (splitDate.count == 0) {
@@ -38,7 +38,7 @@ function changeDateFormat(inputDate) { //from yyyy-mm-dd to mm-dd-yyyy
 }
 
 /*Add item after form is completed
-*/
+ */
 router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let itemInfo = req.body;
@@ -55,11 +55,11 @@ router.post("/", (req, res) => {
 });
 
 /*Update an item
-*/
+ */
 router.put("/:itemID", (req, res) => {
     if (req.isAuthenticated()) {
         itemsData.updateItem(req.params.itemID, req.body).then((updatedItem) => {
-            res.redirect(`/items/${updatedItem._id}`);
+            res.redirect("/");
         }).catch((err) => {
             res.status(500).json({ error: err });
         });
@@ -69,7 +69,7 @@ router.put("/:itemID", (req, res) => {
 });
 
 /*Delete a specific item 
-*/
+ */
 router.delete("/:itemID", (req, res) => {
     if (req.isAuthenticated()) {;
         itemsData.removeItem(req.params.itemID).then(() => {
