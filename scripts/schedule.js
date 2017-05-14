@@ -9,6 +9,9 @@ let dateToday = new Date().getDate()
 let dateTomorrow = dateToday + 1;
 let dateWeekAway = dateToday + 7;
 
+/*Go through all items of a given user and organize items
+ *based on their expiry date 
+*/
 var calculateExpireItems = function(listItems) {
     let weekExpire = [];
     let todayExpire = [];
@@ -42,7 +45,8 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-
+/*Generate and send email formatted properly in html
+*/
 var generateEmail = function(todayExpire, tomorrowExpire, weekExpire, alreadyExpire, toEmail) {
 
     let todayExpireString = todayExpire.map(function(a) { return a.nickname; }).join(', ');
@@ -79,7 +83,10 @@ var generateEmail = function(todayExpire, tomorrowExpire, weekExpire, alreadyExp
 };
 
 module.exports = {
-    simpleTask: function() {
+    /*Goes through all users and sends email report
+     *every midnight
+    */
+    scheduleEmail: function() {
         //Every midnight it will run
         cron.schedule('0 0 0 * * *', function() {
             return usersData.getAllUsers().then((allUsers) => {

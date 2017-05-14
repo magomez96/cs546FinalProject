@@ -3,6 +3,8 @@ const users = mongoCollections.users;
 const uuid = require('node-uuid');
 
 let exportedMethods = {
+    /*Get user given user Id and return that user if successful
+    */
     getUserById(id) {
         return new Promise((fulfill, reject) => {
             return users().then((userCollection) => {
@@ -13,7 +15,8 @@ let exportedMethods = {
             });
         });
     },
-
+    /*Get user given user email and return that user if successful
+    */
     getUserByEmail(email) {
         return new Promise((fulfill, reject) => {
             return users().then((userCollection) => {
@@ -24,7 +27,8 @@ let exportedMethods = {
             });
         });
     },
-
+    /*Get all users and return array of user objects 
+    */
     getAllUsers() {
         return new Promise((fulfill, reject) => {
             return users().then((userCollection) => {
@@ -32,7 +36,9 @@ let exportedMethods = {
             });
         });
     },
-
+    /*Add new user given hashedPassword, initial sessionId=0, name
+     *diet and email. Handles duplicate emails
+    */
     addUser(hashedPassword, sessionId, name, diet, email) {
         return new Promise((fulfill, reject) => {
             return users().then((userCollection) => {
@@ -55,6 +61,8 @@ let exportedMethods = {
             });
         });
     },
+    /*Remove user given their id
+    */
     removeUser(id) {
         return new Promise((fulfill, reject) => {
             return users().then((userCollection) => {
@@ -68,6 +76,9 @@ let exportedMethods = {
             });
         });
     },
+    /*Update user given id and desired fields and return
+     *that user. Used mostly for updating sessionId
+    */
     updateUser(id, updatedUser) {
         return new Promise((fulfill, reject) => {
             return this.getUserById(id).then((currentUser) => {

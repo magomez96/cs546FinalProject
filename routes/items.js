@@ -7,7 +7,8 @@ const usersData = data.users;
 const itemsData = data.items;
 const productsData = data.products;
 
-//Get all items by user ID
+/*Get all items by user ID
+ */
 router.get("/", (req, res) => {
     res.redirect("/");
     if (req.isAuthenticated()) {
@@ -23,17 +24,21 @@ router.get("/", (req, res) => {
     }
 });
 
-function changeDateFormat(inputDate){  //from yyyy-mm-dd to mm-dd-yyyy
+/*Converts string of format yyyy-mm-dd to mm-dd-yyyy
+ */
+function changeDateFormat(inputDate) { //from yyyy-mm-dd to mm-dd-yyyy
     var splitDate = inputDate.split('-');
-    if(splitDate.count == 0){
+    if (splitDate.count == 0) {
         return null;
     }
     var year = splitDate[0];
     var month = splitDate[1];
-    var day = splitDate[2]; 
+    var day = splitDate[2];
     return month + '-' + day + '-' + year;
 }
 
+/*Add item after form is completed
+ */
 router.post("/", (req, res) => {
     if (req.isAuthenticated()) {
         let itemInfo = req.body;
@@ -49,11 +54,12 @@ router.post("/", (req, res) => {
     }
 });
 
-//Update an item
+/*Update an item
+ */
 router.put("/:itemID", (req, res) => {
     if (req.isAuthenticated()) {
         itemsData.updateItem(req.params.itemID, req.body).then((updatedItem) => {
-            res.redirect(`/items/${updatedItem._id}`);
+            res.redirect("/");
         }).catch((err) => {
             res.status(500).json({ error: err });
         });
@@ -62,8 +68,9 @@ router.put("/:itemID", (req, res) => {
     }
 });
 
-//Delete an item, obviously
-router.get("/:itemID", (req, res) => {
+/*Delete a specific item 
+ */
+router.delete("/:itemID", (req, res) => {
     if (req.isAuthenticated()) {;
         itemsData.removeItem(req.params.itemID).then(() => {
             res.redirect('/')

@@ -33,8 +33,9 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
 };
 
 app.use('/public', express.static(__dirname + '/public'));
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+app.use(require('express-method-override')('_method'));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 app.engine('handlebars', handlebarsInstance.engine);
 app.set('view engine', 'handlebars');
@@ -82,4 +83,4 @@ app.listen(3000, () => {
     console.log("Your routes will be running on http://localhost:3000");
 });
 
-scheduler.simpleTask();
+scheduler.scheduleEmail();
