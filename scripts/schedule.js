@@ -30,18 +30,18 @@ var calculateExpireItems = function(listItems) {
             weekExpire.push(item);
         } else if (expirationDate < dateToday) {
             alreadyExpire.push(item);
-            productsData.removeProduct(item.upc)
+            itemsData.removeItem(item._id)
         }
 
     });
     return [todayExpire, tomorrowExpire, weekExpire, alreadyExpire];
 };
 
-let transporter = nodemailer.createTransport({
-    service: 'gmail',
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
     auth: {
-        user: 'cs546spoileralert@gmail.com',
-        pass: 'spoilerAlertcs546'
+        user: 'cs546spoileremail@gmail.com',
+        pass: 'cs546rocks'
     }
 });
 
@@ -72,14 +72,7 @@ var generateEmail = function(todayExpire, tomorrowExpire, weekExpire, alreadyExp
         subject: "Your daily report",
         html: reportString
     };
-    transporter.sendMail(mailOptions, function(error, response) {
-        if (error) {
-            callback(null, error);
-            console.log("Couldn't send email");
-        } else {
-            callback(response);
-        }
-    });
+    transporter.sendMail(mailOptions);
 };
 
 module.exports = {
@@ -88,18 +81,24 @@ module.exports = {
     */
     scheduleEmail: function() {
         //Every midnight it will run
-        cron.schedule('0 0 0 * * *', function() {
+        cron.schedule('0 53 1 * * *', function() {
+            var count = 0;
             return usersData.getAllUsers().then((allUsers) => {
+                count =  Object.keys(allUsers).length;
                 var sequence = Promise.resolve();
                 allUsers.forEach(function(currUser) {
                     sequence = sequence.then(function() {
                         return itemsData.getAllItems(currUser._id)
                     }).then(function(itemList) {
-                        resultItems = calculateExpireItems(itemList);
-                        generateEmail(resultItems[0], resultItems[1], resultItems[2], resultItems[3], currUser.profile.email);
+                        if(count > 0 ){
+                            resultItems = calculateExpireItems(itemList);
+                            generateEmail(resultItems[0], resultItems[1], resultItems[2], resultItems[3], currUser.profile.email);
+                            count--;
+                        }
                     });
                 });
             });
+            count = 0;
             //console.log("Sent email reports to all users");
         });
     }
