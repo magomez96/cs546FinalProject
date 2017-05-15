@@ -4,6 +4,7 @@ const data = require('../data');
 const usersData = data.users;
 const itemsData = data.items;
 const productsData = data.products;
+const sgTransport = require('nodemailer-sendgrid-transport');
 
 let dateToday = new Date().getDate()
 let dateTomorrow = dateToday + 1;
@@ -11,7 +12,7 @@ let dateWeekAway = dateToday + 7;
 
 /*Go through all items of a given user and organize items
  *based on their expiry date 
-*/
+ */
 var calculateExpireItems = function(listItems) {
     let weekExpire = [];
     let todayExpire = [];
@@ -37,16 +38,16 @@ var calculateExpireItems = function(listItems) {
     return [todayExpire, tomorrowExpire, weekExpire, alreadyExpire];
 };
 
-var transporter = nodemailer.createTransport({
-    service: 'Gmail',
+var options = {
     auth: {
-        user: 'cs546spoileremail@gmail.com',
-        pass: 'cs546rocks'
+        api_key: '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'
     }
-});
+}
+
+var transporter = nodemailer.createTransport(sgTransport(options));
 
 /*Generate and send email formatted properly in html
-*/
+ */
 var generateEmail = function(todayExpire, tomorrowExpire, weekExpire, alreadyExpire, toEmail) {
 
     let todayExpireString = todayExpire.map(function(a) { return a.nickname; }).join(', ');
@@ -67,7 +68,7 @@ var generateEmail = function(todayExpire, tomorrowExpire, weekExpire, alreadyExp
     let reportString = '<p> Here is your daily update from Spoiler Alert: </p>' + todayExpireString + tomorrowExpireString + weekExpireString + alreadyExpireString;
 
     let mailOptions = {
-        from: '"Spoiler Alert Team" <cs5s46spoileralert@gmail.com>',
+        from: '"Spoiler Alert Team" <spoileralert@cs546.gomeznj.com>',
         to: toEmail,
         subject: "Your daily report",
         html: reportString
@@ -78,28 +79,27 @@ var generateEmail = function(todayExpire, tomorrowExpire, weekExpire, alreadyExp
 module.exports = {
     /*Goes through all users and sends email report
      *every midnight
-    */
+     */
     scheduleEmail: function() {
         //Every midnight it will run
         cron.schedule('0 0 0 * * *', function() {
             var count = 0;
             return usersData.getAllUsers().then((allUsers) => {
-                count =  Object.keys(allUsers).length;
+                count = Object.keys(allUsers).length;
                 var sequence = Promise.resolve();
                 allUsers.forEach(function(currUser) {
                     sequence = sequence.then(function() {
                         return itemsData.getAllItems(currUser._id)
                     }).then(function(itemList) {
-                        if(count > 0 ){
+                        if (count > 0) {
                             resultItems = calculateExpireItems(itemList);
                             generateEmail(resultItems[0], resultItems[1], resultItems[2], resultItems[3], currUser.profile.email);
                             count--;
                         }
                     });
                 });
+                console.log("Sent email reports to all users");
             });
-            count = 0;
-            //console.log("Sent email reports to all users");
         });
     }
 }
