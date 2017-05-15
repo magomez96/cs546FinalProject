@@ -81,7 +81,7 @@ module.exports = {
     */
     scheduleEmail: function() {
         //Every midnight it will run
-        cron.schedule('0 53 1 * * *', function() {
+        cron.schedule('0 0 0 * * *', function() {
             var count = 0;
             return usersData.getAllUsers().then((allUsers) => {
                 count =  Object.keys(allUsers).length;
