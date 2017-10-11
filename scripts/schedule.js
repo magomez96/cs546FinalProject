@@ -40,7 +40,7 @@ var calculateExpireItems = function(listItems) {
 
 var options = {
     auth: {
-        api_key: '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'
+        api_key: '' //Insert API Key
     }
 }
 
